@@ -7,6 +7,8 @@ import Link from "next/link";
 import { getRooms } from "@/lib/supabaseClient";
 import RoomCard from "@/components/RoomCard";
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const rooms = await getRooms();
   const featured = rooms.slice(0, 3); // Show up to 3 featured rooms
