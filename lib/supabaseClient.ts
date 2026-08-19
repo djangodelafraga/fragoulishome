@@ -118,13 +118,22 @@ function mapRoomRow(row: RoomRow): Room {
 
 export async function getRooms(): Promise<Room[]> {
   const client = getSupabase();
-  if (!client) return [];
+  if (!client) {
+    console.error("[getRooms] No Supabase client");
+    return [];
+  }
 
   const { data, error } = await client
     .from("rooms")
     .select("*")
     .eq("is_active", true)
     .order("created_at", { ascending: false });
+
+  console.log("[getRooms] result:", {
+    error: error ? JSON.stringify(error) : null,
+    count: data?.length ?? 0,
+    firstRow: data?.[0] ? (data[0] as RoomRow).title : null,
+  });
 
   if (error) {
     console.error("getRooms error:", JSON.stringify(error));
