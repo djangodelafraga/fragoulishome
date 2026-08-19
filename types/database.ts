@@ -1,44 +1,124 @@
 // ============================================
-// fragoulishome.gr — Database Schema Placeholders
-// TypeScript interfaces only. No SQL.
+// fragoulishome.gr — Database Schema Types
+// Auto-generated from Supabase project + manual camelCase models.
 // ============================================
 
-// --- Room ---
-// TODO: Map to Supabase `rooms` table.
+// ============================================
+// Auto-generated raw row types (snake_case)
+// Derived from Supabase project heoqwpbkdarhctxugzuk
+// ============================================
+
+export interface RoomRow {
+  id: string;
+  slug: string;
+  title: string;
+  description: string | null;
+  short_description: string | null;
+  llm_description: string | null;
+  price_per_night: number;
+  currency: string | null;
+  capacity: number;
+  bed_type: string | null;
+  size_sqm: number | null;
+  amenities: string[] | null;
+  images: unknown | null;
+  cover_image_url: string | null;
+  address: unknown | null;
+  location_summary: string | null;
+  is_active: boolean | null;
+  created_at: string | null;
+  updated_at: string | null;
+}
+
+export interface BookingRow {
+  id: string;
+  room_id: string;
+  guest_id: string | null;
+  guest_name: string;
+  guest_email: string;
+  guest_phone: string | null;
+  check_in: string;
+  check_out: string;
+  number_of_guests: number;
+  total_price: number;
+  currency: string | null;
+  status: string | null;
+  payment_status: string | null;
+  payment_record_id: string | null;
+  special_requests: string | null;
+  created_at: string | null;
+  updated_at: string | null;
+}
+
+export interface AvailabilityRow {
+  id: string;
+  room_id: string;
+  date: string;
+  is_available: boolean | null;
+  reason: string | null;
+  price_override: number | null;
+}
+
+export interface PaymentRow {
+  id: string;
+  booking_id: string;
+  stripe_payment_intent_id: string | null;
+  stripe_customer_id: string | null;
+  amount: number;
+  currency: string | null;
+  status: string | null;
+  receipt_url: string | null;
+  created_at: string | null;
+  updated_at: string | null;
+}
+
+export interface ProfileRow {
+  id: string;
+  email: string | null;
+  full_name: string | null;
+  phone: string | null;
+  role: string | null;
+  created_at: string | null;
+}
+
+export interface CalendarFeedRow {
+  id: string;
+  room_id: string;
+  url: string;
+  last_synced_at: string | null;
+  external_id: string | null;
+}
+
+// ============================================
+// Application model types (camelCase)
+// ============================================
+
 export interface Room {
   id: string;
   slug: string;
   title: string;
   description: string;
   shortDescription?: string;
-
-  // LLM-friendly description placeholder
   llmDescription?: string;
-
   pricePerNight: number;
-  currency: string; // e.g. "EUR"
-
-  capacity: number; // max guests
+  currency: string;
+  capacity: number;
   bedType?: "single" | "double" | "queen" | "king" | "sofa";
   sizeSqm?: number;
-
   amenities: string[];
-
   images: RoomImage[];
-  coverImageUrl?: string; // TODO: add alt-text field per image
-
+  coverImageUrl?: string;
   address: RoomAddress;
-  locationSummary?: string; // LLM-friendly location context
-
+  locationSummary?: string;
   isActive: boolean;
-  createdAt?: string; // ISO date
-  updatedAt?: string; // ISO date
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface RoomImage {
   id: string;
   url: string;
-  altText: string; // SEO alt-text field
+  altText: string;
   isCover?: boolean;
   width?: number;
   height?: number;
@@ -48,33 +128,27 @@ export interface RoomAddress {
   street?: string;
   city: string;
   postalCode?: string;
-  country: string; // "Greece"
+  country: string;
   latitude?: number;
   longitude?: number;
-  metroStation?: string; // proximity context
+  metroStation?: string;
 }
 
-// --- Booking ---
-// TODO: Map to Supabase `bookings` table.
 export interface Booking {
   id: string;
   roomId: string;
-  guestId?: string; // references User
+  guestId?: string;
   guestName: string;
   guestEmail: string;
   guestPhone?: string;
-
-  checkIn: string; // ISO date (start)
-  checkOut: string; // ISO date (end)
+  checkIn: string;
+  checkOut: string;
   numberOfGuests: number;
-
   totalPrice: number;
   currency: string;
-
   status: BookingStatus;
   paymentStatus?: PaymentStatus;
   paymentRecordId?: string;
-
   specialRequests?: string;
   createdAt?: string;
   updatedAt?: string;
@@ -94,19 +168,15 @@ export type PaymentStatus =
   | "failed"
   | "refunded";
 
-// --- Availability ---
-// TODO: Map to Supabase `availability` table or derived from bookings.
 export interface Availability {
   id: string;
   roomId: string;
-  date: string; // YYYY-MM-DD
+  date: string;
   isAvailable: boolean;
   reason?: "booked" | "blocked" | "maintenance";
   priceOverride?: number;
 }
 
-// --- User ---
-// TODO: Map to Supabase Auth user + public profile table.
 export interface User {
   id: string;
   email: string;
@@ -118,8 +188,6 @@ export interface User {
 
 export type UserRole = "guest" | "admin" | "superadmin";
 
-// --- Payment Record ---
-// TODO: Map to Supabase `payments` table + Stripe objects.
 export interface PaymentRecord {
   id: string;
   bookingId: string;
@@ -133,12 +201,56 @@ export interface PaymentRecord {
   updatedAt?: string;
 }
 
-// --- Calendar Sync (iCal) ---
-// TODO: Map to external iCal feed metadata.
 export interface CalendarFeed {
   id: string;
   roomId: string;
-  url: string; // iCal feed URL
+  url: string;
   lastSyncedAt?: string;
-  externalId?: string; // external event UID
+  externalId?: string;
+}
+
+// ============================================
+// Database type for typed Supabase client
+// Simple flat object types to avoid Supabase type inference issues.
+// ============================================
+
+export interface Database {
+  public: {
+    Tables: {
+      rooms: {
+        Row: RoomRow;
+        Insert: Record<string, unknown>;
+        Update: Record<string, unknown>;
+      };
+      bookings: {
+        Row: BookingRow;
+        Insert: Record<string, unknown>;
+        Update: Record<string, unknown>;
+      };
+      availability: {
+        Row: AvailabilityRow;
+        Insert: Record<string, unknown>;
+        Update: Record<string, unknown>;
+      };
+      payments: {
+        Row: PaymentRow;
+        Insert: Record<string, unknown>;
+        Update: Record<string, unknown>;
+      };
+      profiles: {
+        Row: ProfileRow;
+        Insert: Record<string, unknown>;
+        Update: Record<string, unknown>;
+      };
+      calendar_feeds: {
+        Row: CalendarFeedRow;
+        Insert: Record<string, unknown>;
+        Update: Record<string, unknown>;
+      };
+    };
+    Views: Record<string, never>;
+    Functions: Record<string, never>;
+    Enums: Record<string, never>;
+    CompositeTypes: Record<string, never>;
+  };
 }

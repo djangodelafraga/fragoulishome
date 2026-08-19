@@ -1,7 +1,6 @@
 // ============================================
-// fragoulishome.gr — Stripe Scaffolding
-// Client initialization + empty placeholder functions.
-// No real logic.
+// fragoulishome.gr — Stripe Integration
+// Client initialization + payment intent creation.
 // ============================================
 
 import Stripe from "stripe";
@@ -9,34 +8,60 @@ import Stripe from "stripe";
 // --- Stripe client initialization ---
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY ?? "";
 
-// Guarded initialization: the client is only created when the secret key is
-// present so the skeleton compiles before credentials are configured.
-// TODO: Initialize Stripe with API version + app info once key is available.
 export const stripe: Stripe | null = stripeSecretKey
   ? new Stripe(stripeSecretKey, {
-      // TODO: Pin to the desired Stripe API version for backward compatibility.
       apiVersion: "2025-02-24.acacia",
-      // TODO: appInfo: { name: "fragoulishome" }
     })
   : null;
 
-// --- Payment placeholders ---
-
-// TODO: Create a Stripe PaymentIntent for a booking.
+// --- Create a Stripe PaymentIntent for a booking ---
 export async function createPaymentIntent(
-  _amount: number,
-  _currency: string,
-  _bookingId: string,
+  amount: number,
+  currency: string,
+  bookingId: string,
 ): Promise<Stripe.PaymentIntent | null> {
-  // TODO: stripe.paymentIntents.create({ amount, currency, metadata: { bookingId } });
-  return null;
+  if (!stripe) {
+    console.error("[stripe] Stripe client not initialized — missing STRIPE_SECRET_KEY");
+    return null;
+  }
+
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount,
+      currency: currency.toLowerCase(),
+      metadata: {
+        bookingId,
+        source: "fragoulishome.gr",
+      },
+      automatic_payment_methods: {
+        enabled: true,
+      },
+    });
+
+    return paymentIntent;
+  } catch (error) {
+    console.error("[stripe] createPaymentIntent error:", error);
+    return null;
+  }
 }
 
-// TODO: Verify + handle incoming Stripe webhook events.
+// --- Verify + handle incoming Stripe webhook events ---
 export async function handleWebhook(
-  _payload: string | Buffer,
-  _signature: string,
-): Promise<void> {
-  // TODO: stripe.webhooks.constructEvent(payload, signature, webhookSecret);
-  // TODO: Switch on event type (payment_intent.succeeded, payment_intent.failed, etc.)
+  payload: string | Buffer,
+  signature: string,
+): Promise<Stripe.Event | null> {
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+  if (!stripe || !webhookSecret) {
+    console.error("[stripe] Webhook handling not configured");
+    return null;
+  }
+
+  try {
+    const event = stripe.webhooks.constructEvent(payload, signature, webhookSecret);
+    return event;
+  } catch (error) {
+    console.error("[stripe] Webhook signature verification failed:", error);
+    return null;
+  }
 }
