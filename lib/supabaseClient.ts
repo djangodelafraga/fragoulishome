@@ -13,37 +13,22 @@ import type {
   User,
 } from "@/types/database";
 
-// --- Supabase client initialization (lazy) ---
-// Lazy-initialized so that NEXT_PUBLIC_* env vars are read at request time,
-// not at module load time (important for Vercel serverless).
-let _supabase: SupabaseClient | null | undefined;
-
+// --- Supabase client (lazy, per-request) ---
 function getSupabase(): SupabaseClient | null {
-  if (_supabase !== undefined) return _supabase;
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
+  if (!url || !key) {
+    console.error("[supabase] Missing env vars:", {
+      hasUrl: !!url,
+      hasKey: !!key,
+      urlPrefix: url ? url.substring(0, 50) : "none",
+    });
+    return null;
+  }
 
-  _supabase =
-    supabaseUrl && supabaseAnonKey
-      ? createClient(supabaseUrl, supabaseAnonKey)
-      : null;
-
-  return _supabase;
+  return createClient(url, key);
 }
-
-// Keep the named export for backward compatibility (lazy proxy)
-export const supabase: SupabaseClient | null = new Proxy({} as SupabaseClient, {
-  get(_target, prop) {
-    const client = getSupabase();
-    if (!client) return undefined;
-    const val = (client as unknown as Record<string | symbol, unknown>)[prop];
-    if (typeof val === "function") {
-      return val.bind(client);
-    }
-    return val;
-  },
-});
 
 // ============================================
 // DB row types (snake_case → matches Supabase columns)
@@ -62,9 +47,9 @@ interface RoomRow {
   bed_type: string | null;
   size_sqm: number | null;
   amenities: string[] | null;
-  images: unknown | null; // jsonb — parsed as RoomImage[]
+  images: unknown | null;
   cover_image_url: string | null;
-  address: unknown | null; // jsonb — parsed as RoomAddress
+  address: unknown | null;
   location_summary: string | null;
   is_active: boolean;
   created_at: string | null;
@@ -77,25 +62,20 @@ interface RoomRow {
 
 function mapRoomRow(row: RoomRow): Room {
   let images: RoomImage[] = [];
-  if (row.images) {
-    if (Array.isArray(row.images)) {
-      images = (row.images as Record<string, unknown>[]).map(
-        (img, i): RoomImage => ({
-          id: (img.id as string) ?? `img-${i}`,
-          url: (img.url as string) ?? "",
-          altText: (img.altText as string) ?? (img.alt_text as string) ?? "",
-          isCover: (img.isCover as boolean) ?? (img.is_cover as boolean) ?? false,
-          width: (img.width as number) ?? undefined,
-          height: (img.height as number) ?? undefined,
-        }),
-      );
-    }
+  if (row.images && Array.isArray(row.images)) {
+    images = (row.images as Record<string, unknown>[]).map(
+      (img, i): RoomImage => ({
+        id: (img.id as string) ?? `img-${i}`,
+        url: (img.url as string) ?? "",
+        altText: (img.altText as string) ?? (img.alt_text as string) ?? "",
+        isCover: (img.isCover as boolean) ?? (img.is_cover as boolean) ?? false,
+        width: (img.width as number) ?? undefined,
+        height: (img.height as number) ?? undefined,
+      }),
+    );
   }
 
-  let address: RoomAddress = {
-    city: "Athens",
-    country: "Greece",
-  };
+  let address: RoomAddress = { city: "Athens", country: "Greece" };
   if (row.address && typeof row.address === "object") {
     const a = row.address as Record<string, unknown>;
     address = {
@@ -105,8 +85,7 @@ function mapRoomRow(row: RoomRow): Room {
       country: (a.country as string) ?? "Greece",
       latitude: (a.latitude as number) ?? undefined,
       longitude: (a.longitude as number) ?? undefined,
-      metroStation:
-        (a.metroStation as string) ?? (a.metro_station as string) ?? undefined,
+      metroStation: (a.metroStation as string) ?? (a.metro_station as string) ?? undefined,
     };
   }
 
@@ -138,16 +117,17 @@ function mapRoomRow(row: RoomRow): Room {
 // ============================================
 
 export async function getRooms(): Promise<Room[]> {
-  if (!supabase) return [];
+  const client = getSupabase();
+  if (!client) return [];
 
-  const { data, error } = await supabase
+  const { data, error } = await client
     .from("rooms")
     .select("*")
     .eq("is_active", true)
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.error("getRooms error:", error);
+    console.error("getRooms error:", JSON.stringify(error));
     return [];
   }
 
@@ -155,34 +135,35 @@ export async function getRooms(): Promise<Room[]> {
 }
 
 export async function getRoomBySlug(slug: string): Promise<Room | null> {
-  if (!supabase) return null;
+  const client = getSupabase();
+  if (!client) return null;
 
-  const { data, error } = await supabase
+  const { data, error } = await client
     .from("rooms")
     .select("*")
     .eq("slug", slug)
     .single();
 
   if (error) {
-    console.error("getRoomBySlug error:", error);
+    console.error("getRoomBySlug error:", JSON.stringify(error));
     return null;
   }
 
   return mapRoomRow(data as RoomRow);
 }
 
-// Keep the old getRoomById for backward compatibility (delegates to slug lookup)
 export async function getRoomById(id: string): Promise<Room | null> {
-  if (!supabase) return null;
+  const client = getSupabase();
+  if (!client) return null;
 
-  const { data, error } = await supabase
+  const { data, error } = await client
     .from("rooms")
     .select("*")
     .eq("id", id)
     .single();
 
   if (error) {
-    console.error("getRoomById error:", error);
+    console.error("getRoomById error:", JSON.stringify(error));
     return null;
   }
 
@@ -190,13 +171,12 @@ export async function getRoomById(id: string): Promise<Room | null> {
 }
 
 // ============================================
-// Booking data access (placeholders — real logic later)
+// Booking data access (placeholders)
 // ============================================
 
 export async function createBooking(
   _input: Omit<Booking, "id" | "createdAt" | "updatedAt">,
 ): Promise<Booking | null> {
-  // TODO: INSERT INTO bookings (...) VALUES (...);
   return null;
 }
 
@@ -205,19 +185,15 @@ export async function checkAvailability(
   _checkIn: string,
   _checkOut: string,
 ): Promise<Availability[]> {
-  // TODO: Query availability/blocks between date ranges.
   return [];
 }
 
-export async function syncCalendar(_roomId: string): Promise<void> {
-  // TODO: Fetch iCal feed, parse events, upsert availability rows.
-}
+export async function syncCalendar(_roomId: string): Promise<void> {}
 
 export async function uploadRoomImages(
   _roomId: string,
   _files: File[],
 ): Promise<string[]> {
-  // TODO: Upload each file, return public URLs.
   return [];
 }
 
@@ -226,7 +202,6 @@ export async function uploadRoomImages(
 // ============================================
 
 export async function getUser(): Promise<User | null> {
-  // TODO: supabase.auth.getUser() -> map to User.
   return null;
 }
 
@@ -234,10 +209,7 @@ export async function login(
   _email: string,
   _password: string,
 ): Promise<User | null> {
-  // TODO: supabase.auth.signInWithPassword(...)
   return null;
 }
 
-export async function logout(): Promise<void> {
-  // TODO: supabase.auth.signOut()
-}
+export async function logout(): Promise<void> {}
