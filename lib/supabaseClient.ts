@@ -13,14 +13,37 @@ import type {
   User,
 } from "@/types/database";
 
-// --- Supabase client initialization ---
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
+// --- Supabase client initialization (lazy) ---
+// Lazy-initialized so that NEXT_PUBLIC_* env vars are read at request time,
+// not at module load time (important for Vercel serverless).
+let _supabase: SupabaseClient | null | undefined;
 
-export const supabase: SupabaseClient | null =
-  supabaseUrl && supabaseAnonKey
-    ? createClient(supabaseUrl, supabaseAnonKey)
-    : null;
+function getSupabase(): SupabaseClient | null {
+  if (_supabase !== undefined) return _supabase;
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
+
+  _supabase =
+    supabaseUrl && supabaseAnonKey
+      ? createClient(supabaseUrl, supabaseAnonKey)
+      : null;
+
+  return _supabase;
+}
+
+// Keep the named export for backward compatibility (lazy proxy)
+export const supabase: SupabaseClient | null = new Proxy({} as SupabaseClient, {
+  get(_target, prop) {
+    const client = getSupabase();
+    if (!client) return undefined;
+    const val = (client as unknown as Record<string | symbol, unknown>)[prop];
+    if (typeof val === "function") {
+      return val.bind(client);
+    }
+    return val;
+  },
+});
 
 // ============================================
 // DB row types (snake_case → matches Supabase columns)
