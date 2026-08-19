@@ -1,0 +1,35 @@
+/* ============================================
+   fragoulishome.gr — Global Styles (Scaffolding)
+   TODO: Replace with Tailwind CSS / styled system / design tokens.
+   ============================================ */
+
+:root {
+  /* TODO: Define design tokens (colors, spacing, typography). */
+  --color-primary: #b7791f;
+  --color-text: #1a202c;
+  --color-background: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--color-text);
+  background: var(--color-background);
+}
+
+/* TODO: Add minimal base styling for placeholder components. */
+.room-card,
+.booking-form,
+.availability-calendar,
+.admin-sidebar,
+.image-uploader,
+.cookie-consent-banner {
+  padding: 1rem;
+  border: 1px dashed #ccc;
+  margin: 0.5rem 0;
+}

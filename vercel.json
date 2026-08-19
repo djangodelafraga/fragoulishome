@@ -1,0 +1,42 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "rewrites": [
+    {
+      "source": "/api/bookings/create",
+      "destination": "/api/bookings/create"
+    },
+    {
+      "source": "/api/bookings/list",
+      "destination": "/api/bookings/list"
+    },
+    {
+      "source": "/api/availability/check",
+      "destination": "/api/availability/check"
+    },
+    {
+      "source": "/api/availability/update",
+      "destination": "/api/availability/update"
+    },
+    {
+      "source": "/api/calendar/sync",
+      "destination": "/api/calendar/sync"
+    },
+    {
+      "source": "/api/payments/intent",
+      "destination": "/api/payments/intent"
+    },
+    {
+      "source": "/api/payments/webhook",
+      "destination": "/api/payments/webhook"
+    },
+    {
+      "source": "/api/admin/rooms",
+      "destination": "/api/admin/rooms"
+    },
+    {
+      "source": "/api/admin/bookings",
+      "destination": "/api/admin/bookings"
+    }
+  ]
+}
