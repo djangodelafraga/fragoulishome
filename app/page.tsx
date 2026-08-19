@@ -205,7 +205,7 @@ export default async function HomePage() {
             <address style={{ fontStyle: "normal", marginBottom: "var(--space-md)" }}>
               <p style={{ fontSize: "0.9375rem", lineHeight: 1.7 }}>
                 <strong style={{ fontFamily: "var(--font-serif)", fontWeight: 400 }}>Fragoulishome</strong><br />
-                Epar.Od. Sitias – Palekastrou – Vai 39<br />
+                Epar.Od. Sitias – Palekastrou – Vai <br />
                 Petras, Sitia 723 00<br />
                 Crete, Greece
               </p>
