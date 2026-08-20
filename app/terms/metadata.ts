@@ -5,8 +5,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms of Service",
+  title: "Terms & Conditions · Fragoulishome",
   description:
-    "Fragoulishome terms and conditions. TODO: summarize key terms in meta description.",
-  // TODO: Add canonical URL.
+    "Fragoulishome terms and conditions for direct bookings. Cancellation policy, payment terms, house rules, and guest responsibilities for our maisonettes in Sitia, Crete.",
+  alternates: { canonical: "/terms" },
+  robots: { index: true, follow: true },
 };

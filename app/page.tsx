@@ -56,6 +56,7 @@ export default async function HomePage() {
             flexDirection: "column",
             justifyContent: "flex-end",
             padding: "var(--content-padding)",
+            paddingTop: "clamp(4rem, 10vh, 6rem)",
             paddingBottom: "clamp(var(--space-xl), 5vh, var(--space-3xl))",
           }}
         >

@@ -1,6 +1,6 @@
 // ============================================
 // fragoulishome.gr — RoomPreview
-// Homepage room card: image, name, capacity, key amenities, link.
+// Homepage room card: image, name, capacity, brief description, link.
 // No price display — homepage is about the stay, not the rate.
 // ============================================
 
@@ -12,20 +12,10 @@ interface RoomPreviewProps {
   room: Room;
 }
 
-const AMENITY_SHOW_LIMIT = 4;
-
 export default function RoomPreview({ room }: RoomPreviewProps) {
   const coverSrc = room.coverImageUrl ?? room.images?.[0]?.url ?? null;
-  const altText = room.images?.[0]?.altText || room.title;
-
-  // Extract short amenity labels (strip the category prefix like "Bathroom: ")
-  const shortAmenities = (room.amenities ?? [])
-    .map((a) => {
-      const colonIdx = a.indexOf(":");
-      return colonIdx > 0 ? a.slice(colonIdx + 1).trim() : a;
-    })
-    .filter(Boolean)
-    .slice(0, AMENITY_SHOW_LIMIT);
+  const altText = room.images?.[0]?.altText ?? room.title;
+  const description = room.shortDescription ?? room.description;
 
   return (
     <article style={{ borderTop: "1px solid var(--color-border)", paddingTop: "var(--space-xl)" }}>
@@ -59,25 +49,11 @@ export default function RoomPreview({ room }: RoomPreviewProps) {
             {room.bedType ? ` · ${room.bedType}` : ""}
           </p>
 
-          {/* Key amenities */}
-          {shortAmenities.length > 0 && (
-            <ul style={{ listStyle: "none", padding: 0, display: "flex", flexWrap: "wrap", gap: "var(--space-xs)", marginBottom: "var(--space-md)" }}>
-              {shortAmenities.map((amenity) => (
-                <li
-                  key={amenity}
-                  style={{
-                    fontSize: "0.75rem",
-                    color: "var(--color-text-muted)",
-                    background: "var(--color-bg-alt)",
-                    padding: "0.25rem 0.5rem",
-                    borderRadius: "2px",
-                    lineHeight: 1.4,
-                  }}
-                >
-                  {amenity}
-                </li>
-              ))}
-            </ul>
+          {/* Brief description */}
+          {description && (
+            <p style={{ fontSize: "0.875rem", color: "var(--color-text)", lineHeight: 1.6, marginBottom: "var(--space-md)" }}>
+              {description}
+            </p>
           )}
 
           <span style={{ fontSize: "0.8125rem", fontWeight: 500, letterSpacing: "0.02em", textTransform: "uppercase", color: "var(--color-accent)" }}>

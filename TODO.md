@@ -24,18 +24,18 @@
 - [ ] **AdminSidebar** (`components/AdminSidebar.tsx`) — Active route highlighting, logout button. Entirely placeholder.
 - [ ] **ImageUploader** (`components/ImageUploader.tsx`) — Drag-and-drop, preview thumbnails, alt-text input per image. Entirely placeholder.
 - [ ] **AvailabilityBar** (`components/AvailabilityBar.tsx`) — Quick availability check bar on home page. Has file scaffold.
-- [ ] **RoomPreview** (`components/RoomPreview.tsx`) — Room preview card for home page. Has file scaffold.
+- [x] **RoomPreview** (`components/RoomPreview.tsx`) — Room preview card for home page. Shows brief description instead of amenities.
 - [ ] **SectionHeading** (`components/SectionHeading.tsx`) — Reusable section heading component. Has file scaffold.
 - [ ] **SeoHead** (`components/SeoHead.tsx`) — Client-side meta tag injection (if needed beyond App Router metadata). Entirely placeholder.
-- [ ] **CookieConsentBanner** (`components/CookieConsentBanner.tsx`) — GDPR consent UI, localStorage persistence, accept/reject/customize. Scaffolded and integrated in layout.
+- [x] **CookieConsentBanner** (`components/CookieConsentBanner.tsx`) — GDPR consent UI, localStorage persistence, accept/reject buttons with equal styling, conditional script loading.
 
 ### Not Started (Pages)
 - [ ] **Rooms Listing** (`app/rooms/page.tsx`) — Filterable/sortable room grid, search controls.
 - [ ] **Room Detail** (`app/rooms/[slug]/page.tsx`) — Image gallery, amenities, location summary, booking CTA.
 - [ ] **Booking Page** (`app/booking/page.tsx`) — Full booking flow (dates → details → payment).
 - [ ] **Contact Page** (`app/contact/page.tsx`) — Contact form, address/phone/email, map embed.
-- [ ] **Privacy Page** (`app/privacy/page.tsx`) — GDPR-compliant privacy policy text.
-- [ ] **Terms Page** (`app/terms/page.tsx`) — Terms & conditions text.
+- [x] **Privacy Page** (`app/privacy/page.tsx`) — GDPR-compliant privacy policy text (11 sections).
+- [x] **Terms Page** (`app/terms/page.tsx`) — Terms & conditions text (16 sections).
 - [ ] **Admin Dashboard** (`app/admin/page.tsx`) — Stats cards, recent bookings, quick actions.
 - [ ] **Admin Rooms** (`app/admin/rooms/page.tsx`) — CRUD UI for rooms, image upload integration.
 - [ ] **Admin Bookings** (`app/admin/bookings/page.tsx`) — Bookings table, status management.
@@ -122,8 +122,8 @@
 ## Privacy TODO
 
 ### Not Started
-- [ ] **Privacy Policy** (`app/privacy/page.tsx`) — Write full GDPR-compliant policy (Greek/English).
-- [ ] **Cookie Consent** (`components/CookieConsentBanner.tsx`) — Implement full consent flow. (Scaffolded, not functional.)
+- [x] **Privacy Policy** (`app/privacy/page.tsx`) — Full GDPR-compliant policy (English).
+- [x] **Cookie Consent** (`components/CookieConsentBanner.tsx`) — Full consent flow with localStorage persistence, accept/reject, conditional script loading.
 - [ ] **Data Retention** — Define + document data retention/deletion windows.
 - [ ] **User Rights** — Implement access, rectification, erasure, portability request handling.
 

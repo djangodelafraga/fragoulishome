@@ -6,6 +6,7 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import Script from "next/script";
 import "./globals.css";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
 
@@ -84,7 +85,7 @@ export default function RootLayout({
             <div>
               <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "1rem", marginBottom: "var(--space-sm)" }}>Contact</h3>
               <p style={{ fontSize: "0.875rem", color: "var(--color-text-muted)", lineHeight: 1.8 }}>
-                <a href="mailto:info@fragoulishome.gr" style={{ color: "var(--color-accent)" }}>info@fragoulishome.gr</a>
+                <a href="mailto:fragoulishome@gmail.com" style={{ color: "var(--color-accent)" }}>fragoulishome@gmail.com</a>
                 <br />
                 {/* TODO: Add phone number when available */}
               </p>
@@ -116,6 +117,12 @@ export default function RootLayout({
         </footer>
 
         <CookieConsentBanner />
+
+        {/* Cookie consent configuration — loads before interactive */}
+        <Script
+          src="/cookie-config.js"
+          strategy="beforeInteractive"
+        />
       </body>
     </html>
   );
