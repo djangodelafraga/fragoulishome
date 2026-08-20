@@ -200,8 +200,11 @@ export default async function RoomDetailPage({ params }: RoomDetailPageProps) {
         <h2 style={{ fontFamily: "var(--font-serif)", fontSize: "1.25rem", marginBottom: "var(--space-md)" }}>
           Location
         </h2>
-        {/* LLM_OPTIMIZATION: location_summary is served only via structured data for AI crawlers.
-             Human visitors see the standard location info below. */}
+        {room.locationSummary && (
+          <p style={{ color: "var(--color-text)", lineHeight: 1.7, marginBottom: "var(--space-sm)", maxWidth: "42em" }}>
+            {room.locationSummary}
+          </p>
+        )}
         <p style={{ color: "var(--color-text-muted)", fontSize: "0.9375rem" }}>
           {room.address.city}, {room.address.country}
           {room.address.metroStation && ` — near ${room.address.metroStation}`}

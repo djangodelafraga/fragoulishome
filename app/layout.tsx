@@ -92,7 +92,7 @@ export default function RootLayout({
             </div>
 
             {/* Address */}
-            <div style={{ textAlign: "right" }}>
+            <div>
               <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "1rem", marginBottom: "var(--space-sm)" }}>Address</h3>
               <address style={{ fontSize: "0.875rem", color: "var(--color-text-muted)", fontStyle: "normal", lineHeight: 1.8 }}>
                 Petras, Sitia<br />
