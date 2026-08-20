@@ -27,10 +27,6 @@ export default function TermsPage() {
         </ol>
       </nav>
 
-      <h1 style={{ fontFamily: "var(--font-serif)", fontSize: "clamp(1.75rem, 4vw, 2.5rem)", marginBottom: "var(--space-xl)" }}>
-        Terms
-      </h1>
-
       {/* Two-column layout: sidebar + content */}
       <div style={{ display: "flex", gap: "var(--space-2xl)", flexDirection: "column" }} className="legal-layout">
         {/* Sidebar navigation */}
