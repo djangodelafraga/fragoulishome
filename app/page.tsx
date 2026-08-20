@@ -36,20 +36,17 @@ export default async function HomePage() {
             background: "var(--color-bg-alt)",
           }}
         >
-          {/* TODO: Replace with actual hero photograph of the property */}
-          <div
-            className="image-placeholder"
+          <img
+            src="https://heoqwpbkdarhctxugzuk.supabase.co/storage/v1/object/sign/room-images/hero-photo.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wMmQzOWFkNi0xY2MxLTQwODUtOGIxZC0yODZmMGNhMTAyOWUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJyb29tLWltYWdlcy9oZXJvLXBob3RvLmpwZWciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg3MjUwNDkzLCJleHAiOjE3ODk4NDI0OTN9.QpSwJNIkB1Re5t800WiFl9g0KAyHlDtKOpdGd3uOKHM"
+            alt="Fragoulishome — exterior with olive and pine trees"
             style={{
               position: "absolute",
               inset: 0,
               width: "100%",
               height: "100%",
-              aspectRatio: "auto",
-              fontSize: "1rem",
+              objectFit: "cover",
             }}
-          >
-            Hero photograph — Fragoulishome exterior with olive trees
-          </div>
+          />
           <div
             style={{
               position: "absolute",
@@ -99,10 +96,11 @@ export default async function HomePage() {
         <div style={{ display: "grid", gap: "var(--space-xl)", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", alignItems: "center" }}>
           {/* Image */}
           <div style={{ aspectRatio: "4 / 3", overflow: "hidden", background: "var(--color-border)", position: "relative" }}>
-            {/* TODO: Replace with property/location photograph */}
-            <div className="image-placeholder" style={{ height: "100%" }}>
-              Photograph — olive grove or nearby coastline
-            </div>
+            <img
+              src="https://heoqwpbkdarhctxugzuk.supabase.co/storage/v1/object/sign/room-images/sense%20od%20place.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wMmQzOWFkNi0xY2MxLTQwODUtOGIxZC0yODZmMGNhMTAyOWUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJyb29tLWltYWdlcy9zZW5zZSBvZCBwbGFjZS5qcGciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg3MjUwNTE5LCJleHAiOjE3ODk4NDI1MTl9.h0Uw9ex_SG47SyH2ApiQNdWo1bFjganVQs7yfTArNAQ"
+              alt="Olive grove and coastline near Fragoulishome"
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
           </div>
 
           {/* Copy */}
@@ -254,11 +252,31 @@ export default async function HomePage() {
           </div>
         </div>
 
-        {/* TODO: Add host photo and personal story when available */}
-        <div style={{ marginTop: "var(--space-xl)", padding: "var(--space-lg)", background: "var(--color-bg-alt)", borderLeft: "2px solid var(--color-accent)" }}>
-          <p style={{ fontSize: "0.875rem", color: "var(--color-text-muted)", lineHeight: 1.7 }}>
-            <strong style={{ color: "var(--color-text)", fontFamily: "var(--font-serif)", fontWeight: 400 }}>TODO:</strong> Add host introduction, photo, and personal story about Fragoulishome. Share how long the family has been welcoming guests, what they love about Petras, and what makes their hospitality unique.
-          </p>
+        {/* Host photo and story */}
+        <div
+          style={{
+            marginTop: "var(--space-xl)",
+            display: "grid",
+            gap: "var(--space-xl)",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ aspectRatio: "1 / 1", overflow: "hidden", borderRadius: 8, maxWidth: 320 }}>
+            <img
+              src="https://heoqwpbkdarhctxugzuk.supabase.co/storage/v1/object/sign/room-images/owner.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wMmQzOWFkNi0xY2MxLTQwODUtOGIxZC0yODZmMGNhMTAyOWUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJyb29tLWltYWdlcy9vd25lci5qcGVnIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NzI1MDY5MywiZXhwIjoxNzg5ODQyNjkzfQ.b12smNMxxuoGII7Ha2QD25c9Yn2D2C_xlTWVP2g5W10"
+              alt="Fragoulishome host"
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          </div>
+          <div style={{ padding: "var(--space-lg)", background: "var(--color-bg-alt)", borderLeft: "2px solid var(--color-accent)" }}>
+            <p style={{ fontSize: "0.875rem", color: "var(--color-text-muted)", lineHeight: 1.7, fontStyle: "italic" }}>
+              "Fragoulishome has been our family&rsquo;s retreat for years — a place where the shade of the olive trees meets the sound of the sea. We welcome guests as we would welcome friends, and we&rsquo;re always happy to share a tip about the best beach or taverna in Sitia."
+            </p>
+            <p style={{ fontSize: "0.8125rem", color: "var(--color-text)", marginTop: "var(--space-sm)", fontWeight: 500 }}>
+              — Your host
+            </p>
+          </div>
         </div>
       </section>
     </>
