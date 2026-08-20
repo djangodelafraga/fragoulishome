@@ -65,7 +65,7 @@ export default function RootLayout({
         </main>
 
         <footer role="contentinfo" style={{ borderTop: "1px solid var(--color-border)", marginTop: "var(--space-4xl)", paddingTop: "var(--space-2xl)", paddingBottom: "var(--space-2xl)" }}>
-          <div className="container" style={{ display: "grid", gap: "var(--space-xl)", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
+          <div className="container" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "var(--space-xl)", textAlign: "center" }}>
             {/* Contact */}
             <div>
               <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "1rem", marginBottom: "var(--space-sm)" }}>Contact</h3>
