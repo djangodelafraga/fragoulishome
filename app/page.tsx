@@ -180,21 +180,26 @@ export default async function HomePage() {
         </SectionHeading>
 
         <div style={{ display: "grid", gap: "var(--space-xl)", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", alignItems: "center" }}>
-          {/* Map placeholder */}
-          <div style={{ aspectRatio: "4 / 3", overflow: "hidden", background: "var(--color-bg-alt)", position: "relative", border: "1px solid var(--color-border)" }}>
-            {/* TODO: Replace with embedded map (Google Maps / OpenStreetMap) */}
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", padding: "var(--space-lg)", textAlign: "center" }}>
-              <p style={{ fontSize: "0.875rem", color: "var(--color-text-muted)", marginBottom: "var(--space-sm)" }}>
-                Map loading
-              </p>
-              <Link
-                href="https://maps.google.com/?q=Petras+Sitia+Crete+723+00"
+          {/* Embedded map — OpenStreetMap (free, no API key) */}
+          <div style={{ aspectRatio: "4 / 3", overflow: "hidden", position: "relative", border: "1px solid var(--color-border)", borderRadius: 4 }}>
+            <iframe
+              src="https://www.openstreetmap.org/export/embed.html?bbox=26.119%2C35.197%2C26.123%2C35.200&layer=mapnik&marker=35.1986%2C26.121"
+              title="Map showing Fragoulishome location in Petras, Sitia"
+              width="100%"
+              height="100%"
+              style={{ border: 0, display: "block" }}
+              loading="lazy"
+              referrerPolicy="no-referrer"
+            />
+            <div style={{ position: "absolute", bottom: 8, right: 8, fontSize: "0.75rem", background: "rgba(255,255,255,0.9)", padding: "2px 8px", borderRadius: 4 }}>
+              <a
+                href="https://www.openstreetmap.org/?mlat=35.1986&mlon=26.121#map=16/35.1986/26.121"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ fontSize: "0.8125rem", color: "var(--color-accent)", textDecoration: "underline" }}
+                style={{ color: "var(--color-accent)" }}
               >
-                Open in Google Maps &rarr;
-              </Link>
+                Open larger map &rarr;
+              </a>
             </div>
           </div>
 
