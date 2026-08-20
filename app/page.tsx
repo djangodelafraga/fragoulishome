@@ -21,26 +21,22 @@ export default async function HomePage() {
       {/* ============================================
           Hero
           ============================================ */}
-      <section aria-label="Introduction" style={{ position: "relative" }}>
-        {/* Full-bleed background image */}
+      <section
+        aria-label="Introduction"
+        style={{ position: "relative", isolation: "isolate" }}
+      >
+        {/* Full-bleed background layer — fills the section regardless of content height */}
         <div
+          aria-hidden="true"
           style={{
-            position: "relative",
-            width: "100%",
-            height: "clamp(60vh, 70vh, 80vh)",
+            position: "absolute",
+            inset: 0,
+            zIndex: 0,
             overflow: "hidden",
             background: "var(--color-bg-alt)",
           }}
         >
           {/* TODO: Replace with actual hero photograph of the property */}
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background: "linear-gradient(180deg, rgba(42,40,37,0.15) 0%, rgba(42,40,37,0.45) 100%)",
-              zIndex: 1,
-            }}
-          />
           <div
             className="image-placeholder"
             style={{
@@ -54,36 +50,41 @@ export default async function HomePage() {
           >
             Hero photograph — Fragoulishome exterior with olive trees
           </div>
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: "linear-gradient(180deg, rgba(42,40,37,0.15) 0%, rgba(42,40,37,0.45) 100%)",
+            }}
+          />
         </div>
 
-        {/* Overlay content */}
+        {/* Content layer — normal flow, grows the section instead of overflowing it */}
         <div
+          className="container"
           style={{
-            position: "absolute",
-            inset: 0,
-            zIndex: 2,
+            position: "relative",
+            zIndex: 1,
+            minHeight: "clamp(520px, 70vh, 80vh)",
             display: "flex",
             flexDirection: "column",
             justifyContent: "flex-end",
-            padding: "var(--content-padding)",
-            paddingTop: "clamp(6rem, 12vh, 8rem)",
+            paddingTop: "var(--space-3xl)",
             paddingBottom: "clamp(var(--space-xl), 5vh, var(--space-3xl))",
           }}
         >
-          <div className="container" style={{ padding: 0 }}>
-            <h1
-              style={{
-                fontSize: "clamp(1.75rem, 5vw, 3rem)",
-                color: "var(--color-white)",
-                maxWidth: "14em",
-                marginBottom: "var(--space-sm)",
-                textShadow: "0 1px 4px rgba(0,0,0,0.2)",
-              }}
-            >
-              Two peaceful maisonettes among olive and pine trees, steps from the sea in Sitia, Crete.
-            </h1>
-            <AvailabilityBar />
-          </div>
+          <h1
+            style={{
+              fontSize: "clamp(1.75rem, 5vw, 3rem)",
+              color: "var(--color-white)",
+              maxWidth: "14em",
+              marginBottom: "var(--space-md)",
+              textShadow: "0 1px 4px rgba(0,0,0,0.2)",
+            }}
+          >
+            Two peaceful maisonettes among olive and pine trees, steps from the sea in Sitia, Crete.
+          </h1>
+          <AvailabilityBar />
         </div>
       </section>
 

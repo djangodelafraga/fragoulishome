@@ -49,6 +49,12 @@ html {
   text-rendering: optimizeLegibility;
 }
 
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   font-family: var(--font-sans);
   font-size: 1rem;
