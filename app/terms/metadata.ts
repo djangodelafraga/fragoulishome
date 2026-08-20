@@ -5,9 +5,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms & Conditions · Fragoulishome",
+  title: "Privacy Policy, Terms & Cookie Policy · Fragoulishome",
   description:
-    "Fragoulishome terms and conditions for direct bookings. Cancellation policy, payment terms, house rules, and guest responsibilities for our maisonettes in Sitia, Crete.",
+    "Fragoulishome legal information: Privacy Policy, Terms & Conditions, and Cookie Policy for direct bookings at our maisonettes in Sitia, Crete.",
   alternates: { canonical: "/terms" },
   robots: { index: true, follow: true },
 };

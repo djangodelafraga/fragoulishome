@@ -100,19 +100,18 @@ export default function RootLayout({
               </address>
             </div>
 
-            {/* Links */}
-            <div>
-              <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "1rem", marginBottom: "var(--space-sm)" }}>Links</h3>
-              <nav aria-label="Footer navigation" style={{ fontSize: "0.875rem", color: "var(--color-text-muted)", lineHeight: 2 }}>
-                <Link href="/rooms" style={{ display: "block", color: "var(--color-accent)" }}>Rooms</Link>
-                <Link href="/privacy" style={{ display: "block", color: "var(--color-accent)" }}>Privacy Policy</Link>
-                <Link href="/terms" style={{ display: "block", color: "var(--color-accent)" }}>Terms & Conditions</Link>
-              </nav>
-            </div>
           </div>
 
-          <div className="container" style={{ marginTop: "var(--space-xl)", paddingTop: "var(--space-md)", borderTop: "1px solid var(--color-border)", fontSize: "0.75rem", color: "var(--color-text-muted)", textAlign: "center" }}>
-            &copy; {new Date().getFullYear()} Fragoulishome. All rights reserved.
+          <div className="container" style={{ marginTop: "var(--space-xl)", paddingTop: "var(--space-md)", borderTop: "1px solid var(--color-border)", fontSize: "0.75rem", color: "var(--color-text-muted)", textAlign: "center", display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "var(--space-sm) var(--space-md)" }}>
+            <Link href="/terms#privacy-policy" style={{ color: "var(--color-accent)", whiteSpace: "nowrap" }}>Privacy Policy</Link>
+            <span aria-hidden="true">|</span>
+            <Link href="/terms#terms-conditions" style={{ color: "var(--color-accent)", whiteSpace: "nowrap" }}>Terms & Conditions</Link>
+            <span aria-hidden="true">|</span>
+            <Link href="/terms#cookie-policy" style={{ color: "var(--color-accent)", whiteSpace: "nowrap" }}>Cookie Policy</Link>
+            <span aria-hidden="true">|</span>
+            <Link href="/contact" style={{ color: "var(--color-accent)", whiteSpace: "nowrap" }}>Contact</Link>
+            <span aria-hidden="true">|</span>
+            <span>&copy; {new Date().getFullYear()} fragoulishome</span>
           </div>
         </footer>
 

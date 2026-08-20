@@ -41,7 +41,17 @@ export default async function HomePage() {
               zIndex: 1,
             }}
           />
-          <div className="image-placeholder" style={{ height: "100%", fontSize: "1rem" }}>
+          <div
+            className="image-placeholder"
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              aspectRatio: "auto",
+              fontSize: "1rem",
+            }}
+          >
             Hero photograph — Fragoulishome exterior with olive trees
           </div>
         </div>
@@ -56,7 +66,7 @@ export default async function HomePage() {
             flexDirection: "column",
             justifyContent: "flex-end",
             padding: "var(--content-padding)",
-            paddingTop: "clamp(4rem, 10vh, 6rem)",
+            paddingTop: "clamp(6rem, 12vh, 8rem)",
             paddingBottom: "clamp(var(--space-xl), 5vh, var(--space-3xl))",
           }}
         >
@@ -72,18 +82,6 @@ export default async function HomePage() {
             >
               Two peaceful maisonettes among olive and pine trees, steps from the sea in Sitia, Crete.
             </h1>
-            <p
-              style={{
-                fontSize: "clamp(0.9375rem, 2vw, 1.125rem)",
-                color: "rgba(255,255,255,0.9)",
-                maxWidth: "32em",
-                marginBottom: "var(--space-lg)",
-                lineHeight: 1.5,
-              }}
-            >
-              Direct booking, no platform fees. Petras, eastern Crete.
-            </p>
-
             <AvailabilityBar />
           </div>
         </div>
