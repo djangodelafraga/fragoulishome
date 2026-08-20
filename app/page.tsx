@@ -183,7 +183,7 @@ export default async function HomePage() {
           {/* Embedded map — OpenStreetMap (free, no API key) */}
           <div style={{ aspectRatio: "4 / 3", overflow: "hidden", position: "relative", border: "1px solid var(--color-border)", borderRadius: 4 }}>
             <iframe
-              src="https://www.openstreetmap.org/export/embed.html?bbox=26.119%2C35.197%2C26.123%2C35.200&layer=mapnik&marker=35.1986%2C26.121"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=26.1197%2C35.197%2C26.1237%2C35.200&layer=mapnik&marker=35.1986%2C26.1217"
               title="Map showing Fragoulishome location in Petras, Sitia"
               width="100%"
               height="100%"
@@ -193,7 +193,7 @@ export default async function HomePage() {
             />
             <div style={{ position: "absolute", bottom: 8, right: 8, fontSize: "0.75rem", background: "rgba(255,255,255,0.9)", padding: "2px 8px", borderRadius: 4 }}>
               <a
-                href="https://www.openstreetmap.org/?mlat=35.1986&mlon=26.121#map=16/35.1986/26.121"
+                href="https://www.openstreetmap.org/?mlat=35.1986&mlon=26.1217#map=16/35.1986/26.1217"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ color: "var(--color-accent)" }}
