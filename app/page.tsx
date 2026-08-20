@@ -1,12 +1,11 @@
 // ============================================
 // fragoulishome.gr — Home Page
-// Editorial, close-to-nature direct-booking homepage.
-// Sections: hero, sense of place, featured rooms, location, host.
+// Premium Mediterranean boutique retreat.
+// Editorial layout: hero → intro → rooms → landscape → location → story → CTA.
 // ============================================
 
 import Link from "next/link";
 import { getRooms } from "@/lib/supabaseClient";
-import SectionHeading from "@/components/SectionHeading";
 import AvailabilityBar from "@/components/AvailabilityBar";
 import RoomPreview from "@/components/RoomPreview";
 
@@ -14,18 +13,25 @@ export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const rooms = await getRooms();
-  const featured = rooms.slice(0, 3);
+  const featured = rooms.slice(0, 2);
 
   return (
     <>
       {/* ============================================
-          Hero
+          Hero — 85-95vh, image-dominant, editorial
           ============================================ */}
       <section
         aria-label="Introduction"
-        style={{ position: "relative", isolation: "isolate" }}
+        style={{
+          position: "relative",
+          isolation: "isolate",
+          height: "clamp(70vh, 90vh, 95vh)",
+          minHeight: "500px",
+          display: "flex",
+          alignItems: "flex-end",
+        }}
       >
-        {/* Full-bleed background layer — fills the section regardless of content height */}
+        {/* Full-bleed background image */}
         <div
           aria-hidden="true"
           style={{
@@ -33,7 +39,6 @@ export default async function HomePage() {
             inset: 0,
             zIndex: 0,
             overflow: "hidden",
-            background: "var(--color-bg-alt)",
           }}
         >
           <img
@@ -45,143 +50,262 @@ export default async function HomePage() {
               width: "100%",
               height: "100%",
               objectFit: "cover",
+              objectPosition: "center 40%",
             }}
           />
+          {/* Very subtle darkening overlay */}
           <div
             style={{
               position: "absolute",
               inset: 0,
-              background: "linear-gradient(180deg, rgba(42,40,37,0.15) 0%, rgba(42,40,37,0.45) 100%)",
+              background:
+                "linear-gradient(180deg, rgba(42,40,37,0.08) 0%, rgba(42,40,37,0.25) 100%)",
             }}
           />
         </div>
 
-        {/* Content layer — normal flow, grows the section instead of overflowing it */}
+        {/* Hero content — text over image */}
         <div
           className="container"
           style={{
             position: "relative",
             zIndex: 1,
-            minHeight: "clamp(520px, 70vh, 80vh)",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "flex-end",
-            paddingTop: "var(--space-3xl)",
-            paddingBottom: "clamp(var(--space-xl), 5vh, var(--space-3xl))",
+            paddingBottom: "clamp(var(--space-2xl), 8vh, var(--space-4xl))",
+            width: "100%",
           }}
         >
+          <p
+            className="label fade-in"
+            style={{ color: "var(--color-white)", marginBottom: "var(--space-md)", textShadow: "0 1px 2px rgba(0,0,0,0.15)" }}
+          >
+            Petras · Sitia · Crete
+          </p>
+
           <h1
+            className="display-heading fade-in-delay"
             style={{
-              fontSize: "clamp(1.75rem, 5vw, 3rem)",
               color: "var(--color-white)",
-              maxWidth: "14em",
-              marginBottom: "var(--space-md)",
-              textShadow: "0 1px 4px rgba(0,0,0,0.2)",
+              maxWidth: "700px",
+              marginBottom: "var(--space-lg)",
+              textShadow: "0 1px 4px rgba(0,0,0,0.15)",
+            }}
+          >
+            Fragoulishome
+          </h1>
+
+          <p
+            className="fade-in-delay"
+            style={{
+              fontSize: "clamp(1rem, 1.5vw, 1.2rem)",
+              lineHeight: 1.6,
+              color: "var(--color-white)",
+              maxWidth: "600px",
+              marginBottom: "var(--space-xl)",
+              textShadow: "0 1px 3px rgba(0,0,0,0.12)",
+              opacity: 0.9,
             }}
           >
             Two peaceful maisonettes among olive and pine trees, steps from the sea in Sitia, Crete.
-          </h1>
+          </p>
+
           <AvailabilityBar />
         </div>
       </section>
 
       {/* ============================================
-          Sense of Place
+          Intro — quiet editorial statement
           ============================================ */}
-      <section aria-labelledby="sense-of-place-heading" className="container" style={{ paddingTop: "var(--space-3xl)", paddingBottom: "var(--space-3xl)" }}>
-        <SectionHeading as="h2" id="sense-of-place-heading">
+      <section
+        aria-labelledby="intro-heading"
+        className="container section-spacing"
+        style={{ textAlign: "center" }}
+      >
+        <p className="label" style={{ marginBottom: "var(--space-md)" }}>
           A quiet corner of eastern Crete
-        </SectionHeading>
+        </p>
+        <h2
+          id="intro-heading"
+          className="section-heading"
+          style={{ marginBottom: "var(--space-xl)" }}
+        >
+          Where the olive trees
+          <br />
+          meet the Libyan Sea
+        </h2>
+        <div className="text-column">
+          <p className="body-lg">
+            Fragoulishome sits in Petras, on the eastern edge of Sitia, where
+            the Cretan countryside meets the sea. Two self-contained maisonettes
+            set within a private grove of olive, pine and palm trees — a short
+            walk from the beach and a few minutes from the town centre.
+          </p>
+        </div>
+      </section>
 
-        <div style={{ display: "grid", gap: "var(--space-xl)", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", alignItems: "center" }}>
-          {/* Image */}
-          <div style={{ aspectRatio: "4 / 3", overflow: "hidden", background: "var(--color-border)", position: "relative" }}>
+      {/* ============================================
+          Full-width cinematic image
+          ============================================ */}
+      <section aria-label="Landscape photograph" style={{ paddingBlock: "clamp(40px, 6vw, 80px)" }}>
+        <div
+          style={{
+            width: "100%",
+            maxWidth: "var(--max-width)",
+            marginInline: "auto",
+            paddingInline: "var(--content-padding)",
+          }}
+        >
+          <div
+            style={{
+              position: "relative",
+              width: "100%",
+              aspectRatio: "21 / 9",
+              overflow: "hidden",
+            }}
+          >
             <img
               src="https://heoqwpbkdarhctxugzuk.supabase.co/storage/v1/object/sign/room-images/sense%20of%20place.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wMmQzOWFkNi0xY2MxLTQwODUtOGIxZC0yODZmMGNhMTAyOWUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJyb29tLWltYWdlcy9zZW5zZSBvZiBwbGFjZS5qcGciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg3MjUxNTIxLCJleHAiOjE3ODk4NDM1MjF9.z6FkU1SGLQ1BjUwfpyRbGH0uuGkUZi1B_0xpdVKGn58"
               alt="Olive grove and coastline near Fragoulishome"
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                objectPosition: "center 60%",
+              }}
+              className="img-hover"
             />
-          </div>
-
-          {/* Copy */}
-          <div>
-            <p style={{ fontSize: "1rem", lineHeight: 1.7, color: "var(--color-text)", marginBottom: "var(--space-lg)" }}>
-              Fragoulishome sits in Petras, on the eastern edge of Sitia, where the Cretan countryside meets the Libyan Sea. Two self-contained maisonettes set within a private grove of olive, pine and palm trees — a short walk from the beach and a few minutes from the town centre.
-            </p>
-
-            <ul style={{ listStyle: "none", padding: 0, display: "grid", gap: "var(--space-md)" }}>
-              <li style={{ borderLeft: "2px solid var(--color-accent)", paddingLeft: "var(--space-md)" }}>
-                <strong style={{ display: "block", fontSize: "0.875rem", fontFamily: "var(--font-serif)" }}>50 metres to the sea</strong>
-                <span style={{ fontSize: "0.8125rem", color: "var(--color-text-muted)" }}>The nearest beach is directly across the road.</span>
-              </li>
-              <li style={{ borderLeft: "2px solid var(--color-accent)", paddingLeft: "var(--space-md)" }}>
-                <strong style={{ display: "block", fontSize: "0.875rem", fontFamily: "var(--font-serif)" }}>1.5 km to Sitia centre</strong>
-                <span style={{ fontSize: "0.8125rem", color: "var(--color-text-muted)" }}>A 10-minute walk or 3-minute drive to restaurants, cafés and shops.</span>
-              </li>
-              <li style={{ borderLeft: "2px solid var(--color-accent)", paddingLeft: "var(--space-md)" }}>
-                <strong style={{ display: "block", fontSize: "0.875rem", fontFamily: "var(--font-serif)" }}>Gateway to eastern Crete</strong>
-                <span style={{ fontSize: "0.8125rem", color: "var(--color-text-muted)" }}>Zakros gorges, Vai palm beach, Minoan sites — all within easy reach.</span>
-              </li>
-            </ul>
           </div>
         </div>
       </section>
 
-      <hr className="hairline container" />
-
       {/* ============================================
-          Featured Rooms
+          Maisonettes — asymmetric editorial grid
           ============================================ */}
-      <section aria-labelledby="rooms-heading" className="container" style={{ paddingTop: "var(--space-3xl)", paddingBottom: "var(--space-3xl)" }}>
-        <SectionHeading as="h2" id="rooms-heading" subtitle="Two maisonettes, each with its own character. Both surrounded by trees and close to the sea.">
+      <section
+        aria-labelledby="rooms-heading"
+        className="container section-spacing"
+      >
+        <p className="label" style={{ marginBottom: "var(--space-md)" }}>
           Our rooms
-        </SectionHeading>
+        </p>
+        <h2
+          id="rooms-heading"
+          className="section-heading"
+          style={{ marginBottom: "var(--space-2xl)" }}
+        >
+          Two maisonettes,
+          <br />
+          each with its own character
+        </h2>
 
         {featured.length > 0 ? (
-          <div style={{ display: "grid", gap: "var(--space-xl)", gridTemplateColumns: "repeat(auto-fill, minmax(min(320px, 100%), 1fr))" }}>
-            {featured.map((room) => (
-              <RoomPreview key={room.id} room={room} />
+          <div
+            style={{
+              display: "grid",
+              gap: "clamp(var(--space-2xl), 6vw, var(--space-4xl))",
+              gridTemplateColumns: "1fr",
+            }}
+          >
+            {featured.map((room, i) => (
+              <RoomPreview key={room.id} room={room} index={i} />
             ))}
           </div>
         ) : (
           <p style={{ color: "var(--color-text-muted)", fontSize: "0.9375rem" }}>
-            Room details coming soon. Check back or <Link href="/contact" style={{ color: "var(--color-accent)", textDecoration: "underline" }}>contact us</Link> for availability.
+            Room details coming soon. Check back or{" "}
+            <Link
+              href="/contact"
+              style={{ color: "var(--color-accent)", borderBottom: "1px solid var(--color-accent)" }}
+            >
+              contact us
+            </Link>{" "}
+            for availability.
           </p>
         )}
 
         {featured.length > 0 && (
-          <p style={{ marginTop: "var(--space-xl)", textAlign: "center" }}>
-            <Link
-              href="/rooms"
-              style={{
-                fontSize: "0.8125rem",
-                fontWeight: 500,
-                letterSpacing: "0.02em",
-                textTransform: "uppercase",
-                color: "var(--color-accent)",
-                borderBottom: "1px solid var(--color-accent)",
-                paddingBottom: "2px",
-              }}
-            >
+          <p style={{ marginTop: "var(--space-2xl)", textAlign: "center" }}>
+            <Link href="/rooms" className="link-underline">
               View all rooms &rarr;
             </Link>
           </p>
         )}
       </section>
 
-      <hr className="hairline container" />
-
       {/* ============================================
-          Location
+          Location — large landscape + map secondary
           ============================================ */}
-      <section aria-labelledby="location-heading" id="location" className="container" style={{ paddingTop: "var(--space-3xl)", paddingBottom: "var(--space-3xl)" }}>
-        <SectionHeading as="h2" id="location-heading" subtitle="Petras, Sitia, Crete — where the mountains meet the sea.">
-          Location
-        </SectionHeading>
+      <section
+        aria-labelledby="location-heading"
+        id="location"
+        className="container section-spacing"
+      >
+        <p className="label" style={{ marginBottom: "var(--space-md)" }}>
+          Petras · Eastern Crete
+        </p>
+        <h2
+          id="location-heading"
+          className="section-heading"
+          style={{ marginBottom: "var(--space-2xl)" }}
+        >
+          Steps from the sea,
+          <br />
+          minutes from Sitia
+        </h2>
 
-        <div style={{ display: "grid", gap: "var(--space-xl)", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", alignItems: "center" }}>
-          {/* Embedded map — OpenStreetMap (free, no API key) */}
-          <div style={{ aspectRatio: "4 / 3", overflow: "hidden", position: "relative", border: "1px solid var(--color-border)", borderRadius: 4 }}>
+        {/* Desktop: text + map side by side */}
+        <div
+          className="location-grid"
+          style={{
+            display: "grid",
+            gap: "var(--space-2xl)",
+            gridTemplateColumns: "1fr",
+            alignItems: "start",
+          }}
+        >
+          {/* Location copy */}
+          <div>
+            <address
+              style={{
+                fontStyle: "normal",
+                marginBottom: "var(--space-lg)",
+                fontSize: "0.9375rem",
+                lineHeight: 1.8,
+                color: "var(--color-text-muted)",
+              }}
+            >
+              Fragoulishome<br />
+              Epar.Od. Sitias – Palekastrou – Vai<br />
+              Petras, Sitia 723 00<br />
+              Crete, Greece
+            </address>
+
+            <ul
+              style={{
+                listStyle: "none",
+                padding: 0,
+                display: "grid",
+                gap: "var(--space-sm)",
+                fontSize: "0.875rem",
+                color: "var(--color-text-muted)",
+                marginBottom: "var(--space-xl)",
+              }}
+            >
+              <li>50 m to the nearest beach</li>
+              <li>1.5 km (10 min walk) to Sitia town centre</li>
+              <li>10 min drive to Sitia airport (JSH)</li>
+              <li>Easy access to Vai, Zakros, Palekastro, Richtis gorge</li>
+            </ul>
+          </div>
+
+          {/* Map — secondary, clean */}
+          <div
+            style={{
+              aspectRatio: "4 / 3",
+              overflow: "hidden",
+              position: "relative",
+              border: "1px solid var(--color-border)",
+            }}
+          >
             <iframe
               src="https://www.openstreetmap.org/export/embed.html?bbox=26.1197%2C35.197%2C26.1237%2C35.200&layer=mapnik&marker=35.1986%2C26.1217"
               title="Map showing Fragoulishome location in Petras, Sitia"
@@ -191,7 +315,16 @@ export default async function HomePage() {
               loading="lazy"
               referrerPolicy="no-referrer"
             />
-            <div style={{ position: "absolute", bottom: 8, right: 8, fontSize: "0.75rem", background: "rgba(255,255,255,0.9)", padding: "2px 8px", borderRadius: 4 }}>
+            <div
+              style={{
+                position: "absolute",
+                bottom: 8,
+                right: 8,
+                fontSize: "0.6875rem",
+                background: "rgba(255,255,255,0.9)",
+                padding: "2px 8px",
+              }}
+            >
               <a
                 href="https://www.openstreetmap.org/?mlat=35.1986&mlon=26.1217#map=16/35.1986/26.1217"
                 target="_blank"
@@ -202,87 +335,171 @@ export default async function HomePage() {
               </a>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* Location details */}
+      {/* ============================================
+          Story — editorial two-column
+          ============================================ */}
+      <section
+        aria-labelledby="story-heading"
+        id="about"
+        className="container section-spacing"
+      >
+        <div
+          className="story-grid"
+          style={{
+            display: "grid",
+            gap: "clamp(var(--space-2xl), 6vw, var(--space-4xl))",
+            gridTemplateColumns: "1fr",
+            alignItems: "center",
+          }}
+        >
+          {/* Image column — dominant */}
+          <div
+            style={{
+              aspectRatio: "3 / 4",
+              overflow: "hidden",
+              position: "relative",
+            }}
+          >
+            <img
+              src="https://heoqwpbkdarhctxugzuk.supabase.co/storage/v1/object/sign/room-images/owner.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wMmQzOWFkNi0xY2MxLTQwODUtOGIxZC0yODZmMGNhMTAyOWUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJyb29tLWltYWdlcy9vd25lci5qcGVnIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NzI1MDY5MywiZXhwIjoxNzg5ODQyNjkzfQ.b12smNMxxuoGII7Ha2QD25c9Yn2D2C_xlTWVP2g5W10"
+              alt="Fragoulishome host"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                objectPosition: "center 30%",
+              }}
+              className="img-hover"
+            />
+          </div>
+
+          {/* Text column */}
           <div>
-            <address style={{ fontStyle: "normal", marginBottom: "var(--space-md)" }}>
-              <p style={{ fontSize: "0.9375rem", lineHeight: 1.7 }}>
-                <strong style={{ fontFamily: "var(--font-serif)", fontWeight: 400 }}>Fragoulishome</strong><br />
-                Epar.Od. Sitias – Palekastrou – Vai <br />
-                Petras, Sitia 723 00<br />
-                Crete, Greece
-              </p>
-            </address>
+            <p className="label" style={{ marginBottom: "var(--space-md)" }}>
+              A family-run stay
+            </p>
+            <h2
+              id="story-heading"
+              className="section-heading"
+              style={{ marginBottom: "var(--space-xl)" }}
+            >
+              Book directly —
+              <br />
+              no commissions,
+              <br />
+              no middlemen
+            </h2>
 
-            <ul style={{ listStyle: "none", padding: 0, display: "grid", gap: "var(--space-sm)", fontSize: "0.875rem", color: "var(--color-text-muted)" }}>
-              <li>50 m to the nearest beach</li>
-              <li>1.5 km (10 min walk) to Sitia town centre</li>
-              <li>10 min drive to Sitia airport (JSH)</li>
-              <li>Easy access to Vai, Zakros, Palekastro, Richtis gorge</li>
-            </ul>
+            <p
+              style={{
+                fontSize: "clamp(0.9375rem, 1.2vw, 1.0625rem)",
+                lineHeight: 1.8,
+                color: "var(--color-text-muted)",
+                marginBottom: "var(--space-lg)",
+              }}
+            >
+              When you book directly through this website, there are no platform
+              fees or commissions. You communicate directly with the family who
+              owns and maintains the property.
+            </p>
+
+            <p
+              style={{
+                fontSize: "clamp(0.9375rem, 1.2vw, 1.0625rem)",
+                lineHeight: 1.8,
+                color: "var(--color-text-muted)",
+                marginBottom: "var(--space-xl)",
+              }}
+            >
+              Each maisonette has a fully equipped kitchen, private entrance,
+              free parking, Wi-Fi, and air conditioning. Set on a 4,000 m² plot
+              with olive, pine and palm trees, the property offers space and
+              privacy while being within walking distance of Sitia&rsquo;s
+              beaches, tavernas and shops.
+            </p>
+
+            {/* Quote */}
+            <blockquote
+              style={{
+                borderLeft: "2px solid var(--color-accent)",
+                paddingLeft: "var(--space-lg)",
+                margin: 0,
+              }}
+            >
+              <p
+                style={{
+                  fontSize: "0.9375rem",
+                  color: "var(--color-text-muted)",
+                  lineHeight: 1.7,
+                  fontStyle: "italic",
+                  marginBottom: "var(--space-sm)",
+                }}
+              >
+                &ldquo;Fragoulishome has been our family&rsquo;s retreat for
+                years — a place where the shade of the olive trees meets the
+                sound of the sea. We welcome guests as we would welcome
+                friends.&rdquo;
+              </p>
+              <p
+                style={{
+                  fontSize: "0.75rem",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  color: "var(--color-text)",
+                }}
+              >
+                — Your host
+              </p>
+            </blockquote>
           </div>
         </div>
       </section>
 
-      <hr className="hairline container" />
-
       {/* ============================================
-          Host / Direct-Booking Reassurance
+          CTA — simple, elegant
           ============================================ */}
-      <section aria-labelledby="about-heading" id="about" className="container" style={{ paddingTop: "var(--space-3xl)", paddingBottom: "var(--space-4xl)" }}>
-        <SectionHeading as="h2" id="about-heading" subtitle="Book directly — no commissions, no middlemen.">
-          A family-run stay
-        </SectionHeading>
-
-        <div style={{ display: "grid", gap: "var(--space-xl)", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))" }}>
-          <div style={{ borderTop: "1px solid var(--color-border)", paddingTop: "var(--space-lg)" }}>
-            <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "1.125rem", marginBottom: "var(--space-sm)" }}>Direct booking</h3>
-            <p style={{ fontSize: "0.875rem", color: "var(--color-text-muted)", lineHeight: 1.7 }}>
-              When you book directly through this website, there are no platform fees or commissions. You communicate directly with the family who owns and maintains the property.
-            </p>
-          </div>
-
-          <div style={{ borderTop: "1px solid var(--color-border)", paddingTop: "var(--space-lg)" }}>
-            <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "1.125rem", marginBottom: "var(--space-sm)" }}>Self-catered comfort</h3>
-            <p style={{ fontSize: "0.875rem", color: "var(--color-text-muted)", lineHeight: 1.7 }}>
-              Each maisonette has a fully equipped kitchen, private entrance, free parking, Wi-Fi, and air conditioning. Bed linens, towels, and essentials are provided.
-            </p>
-          </div>
-
-          <div style={{ borderTop: "1px solid var(--color-border)", paddingTop: "var(--space-lg)" }}>
-            <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "1.125rem", marginBottom: "var(--space-sm)" }}>Quiet coastal setting</h3>
-            <p style={{ fontSize: "0.875rem", color: "var(--color-text-muted)", lineHeight: 1.7 }}>
-              Set on a 4,000 m² plot with olive, pine and palm trees, the property offers space and privacy while being within walking distance of Sitia&rsquo;s beaches, tavernas and shops.
-            </p>
-          </div>
-        </div>
-
-        {/* Host photo and story */}
-        <div
+      <section
+        aria-label="Call to action"
+        className="container section-spacing"
+        style={{ textAlign: "center" }}
+      >
+        <p className="label" style={{ marginBottom: "var(--space-md)" }}>
+          Stay by the sea
+        </p>
+        <h2
+          className="section-heading"
+          style={{ marginBottom: "var(--space-lg)" }}
+        >
+          Discover Fragoulishome
+          <br />
+          in Petras, Sitia
+        </h2>
+        <p
+          className="body-lg"
+          style={{ marginBottom: "var(--space-xl)", maxWidth: "500px", marginInline: "auto" }}
+        >
+          Two peaceful maisonettes surrounded by olive and pine trees, less than
+          100 metres from the sea.
+        </p>
+        <Link
+          href="/booking"
           style={{
-            marginTop: "var(--space-xl)",
-            display: "grid",
-            gap: "var(--space-xl)",
-            gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))",
-            alignItems: "center",
+            display: "inline-block",
+            fontFamily: "var(--font-sans)",
+            fontSize: "0.75rem",
+            letterSpacing: "0.15em",
+            textTransform: "uppercase",
+            color: "var(--color-white)",
+            background: "var(--color-accent)",
+            padding: "1rem 2.5rem",
+            transition: "opacity 0.2s",
           }}
         >
-          <div style={{ width: 160, height: 160, borderRadius: "50%", overflow: "hidden", margin: "0 auto" }}>
-            <img
-              src="https://heoqwpbkdarhctxugzuk.supabase.co/storage/v1/object/sign/room-images/owner.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wMmQzOWFkNi0xY2MxLTQwODUtOGIxZC0yODZmMGNhMTAyOWUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJyb29tLWltYWdlcy9vd25lci5qcGVnIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NzI1MDY5MywiZXhwIjoxNzg5ODQyNjkzfQ.b12smNMxxuoGII7Ha2QD25c9Yn2D2C_xlTWVP2g5W10"
-              alt="Fragoulishome host"
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
-            />
-          </div>
-          <div style={{ padding: "var(--space-lg)", background: "var(--color-bg-alt)", borderLeft: "2px solid var(--color-accent)" }}>
-            <p style={{ fontSize: "0.875rem", color: "var(--color-text-muted)", lineHeight: 1.7, fontStyle: "italic" }}>
-              "Fragoulishome has been our family&rsquo;s retreat for years — a place where the shade of the olive trees meets the sound of the sea. We welcome guests as we would welcome friends, and we&rsquo;re always happy to share a tip about the best beach or taverna in Sitia."
-            </p>
-            <p style={{ fontSize: "0.8125rem", color: "var(--color-text)", marginTop: "var(--space-sm)", fontWeight: 500 }}>
-              — Your host
-            </p>
-          </div>
-        </div>
+          Check availability &rarr;
+        </Link>
       </section>
     </>
   );

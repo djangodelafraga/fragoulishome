@@ -1,7 +1,7 @@
 // ============================================
 // fragoulishome.gr — RoomPreview
-// Homepage room card: image, name, capacity, brief description, link.
-// No price display — homepage is about the stay, not the rate.
+// Editorial room card: large image, name, metadata, description, link.
+// Asymmetric grid layout — alternating image/text sides on desktop.
 // ============================================
 
 import Image from "next/image";
@@ -10,57 +10,93 @@ import type { Room } from "@/types/database";
 
 interface RoomPreviewProps {
   room: Room;
+  /** Index in the grid — used for alternating layout */
+  index?: number;
 }
 
-export default function RoomPreview({ room }: RoomPreviewProps) {
+export default function RoomPreview({ room, index = 0 }: RoomPreviewProps) {
   const coverSrc = room.coverImageUrl ?? room.images?.[0]?.url ?? null;
   const altText = room.images?.[0]?.altText ?? room.title;
   const description = room.shortDescription ?? room.description;
+  const isEven = index % 2 === 0;
 
   return (
-    <article style={{ borderTop: "1px solid var(--color-border)", paddingTop: "var(--space-xl)" }}>
-      <Link href={`/rooms/${room.slug}`} style={{ display: "grid", gap: "var(--space-md)", textDecoration: "none", color: "inherit" }}>
-        {/* Image */}
-        <div style={{ aspectRatio: "4 / 3", overflow: "hidden", background: "var(--color-border)", position: "relative" }}>
-          {coverSrc ? (
-            <Image
-              src={coverSrc}
-              alt={altText}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              style={{ objectFit: "cover" }}
-            />
-          ) : (
-            <div className="image-placeholder" style={{ height: "100%" }}>
-              Photograph coming soon
-            </div>
-          )}
-        </div>
-
-        {/* Details */}
-        <div>
-          <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "1.25rem", marginBottom: "var(--space-xs)" }}>
-            {room.title}
-          </h3>
-
-          <p style={{ fontSize: "0.875rem", color: "var(--color-text-muted)", marginBottom: "var(--space-sm)" }}>
-            Up to {room.capacity} guests
-            {room.sizeSqm ? ` · ${room.sizeSqm} m²` : ""}
-            {room.bedType ? ` · ${room.bedType}` : ""}
-          </p>
-
-          {/* Brief description */}
-          {description && (
-            <p style={{ fontSize: "0.875rem", color: "var(--color-text)", lineHeight: 1.6, marginBottom: "var(--space-md)" }}>
-              {description}
-            </p>
-          )}
-
-          <span style={{ fontSize: "0.8125rem", fontWeight: 500, letterSpacing: "0.02em", textTransform: "uppercase", color: "var(--color-accent)" }}>
-            View room &rarr;
-          </span>
-        </div>
+    <article
+      className={`room-preview-grid${isEven ? "" : " alt"}`}
+      style={{
+        display: "grid",
+        gap: "var(--space-xl)",
+        gridTemplateColumns: "1fr",
+        alignItems: "center",
+      }}
+    >
+      {/* Image — dominant, no card container */}
+      <Link
+        href={`/rooms/${room.slug}`}
+        className="room-preview-image"
+        style={{
+          display: "block",
+          aspectRatio: "4 / 3",
+          overflow: "hidden",
+          background: "var(--color-border)",
+          position: "relative",
+        }}
+      >
+        {coverSrc ? (
+          <Image
+            src={coverSrc}
+            alt={altText}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            style={{ objectFit: "cover" }}
+            className="img-hover"
+          />
+        ) : (
+          <div className="image-placeholder" style={{ height: "100%" }}>
+            Photograph coming soon
+          </div>
+        )}
       </Link>
+
+      {/* Details — typography + whitespace, no card */}
+      <div className="room-preview-details">
+        <p className="label" style={{ marginBottom: "var(--space-sm)" }}>
+          {room.title}
+        </p>
+
+        <p
+          style={{
+            fontSize: "0.8125rem",
+            color: "var(--color-text-muted)",
+            marginBottom: "var(--space-md)",
+          }}
+        >
+          Up to {room.capacity} guests
+          {room.sizeSqm ? ` · ${room.sizeSqm} m²` : ""}
+          {room.bedType ? ` · ${room.bedType}` : ""}
+        </p>
+
+        {description && (
+          <p
+            style={{
+              fontSize: "0.9375rem",
+              color: "var(--color-text)",
+              lineHeight: 1.7,
+              marginBottom: "var(--space-lg)",
+              maxWidth: "480px",
+            }}
+          >
+            {description}
+          </p>
+        )}
+
+        <Link
+          href={`/rooms/${room.slug}`}
+          className="link-underline"
+        >
+          Explore &rarr;
+        </Link>
+      </div>
     </article>
   );
 }

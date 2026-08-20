@@ -1,7 +1,6 @@
 // ============================================
 // fragoulishome.gr — MobileNav
-// Round hamburger button on mobile that reveals
-// a dropdown with Rooms, Location, About links.
+// Clean hamburger toggle with editorial dropdown.
 // ============================================
 
 "use client";
@@ -23,7 +22,7 @@ export default function MobileNav() {
 
   return (
     <div style={{ position: "relative" }}>
-      {/* Round toggle button — hidden on desktop via CSS */}
+      {/* Minimal toggle button */}
       <button
         onClick={() => setIsOpen((prev) => !prev)}
         aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
@@ -32,26 +31,24 @@ export default function MobileNav() {
         style={{
           width: "40px",
           height: "40px",
-          borderRadius: "50%",
-          background: "var(--color-accent)",
+          background: "transparent",
           border: "none",
           cursor: "pointer",
-          display: "none", // toggled to flex by .mobile-menu-btn in CSS
+          display: "none",
           alignItems: "center",
           justifyContent: "center",
           position: "relative",
           zIndex: 1100,
-          transition: "background 0.2s",
         }}
       >
-        {/* Icon: hamburger / close — user will replace with PNG later */}
         <span
           style={{
             color: "var(--color-white)",
-            fontSize: "1.25rem",
+            fontSize: "1.5rem",
             lineHeight: 1,
-            fontFamily: "var(--font-sans)",
+            fontFamily: "var(--font-serif)",
             display: "block",
+            textShadow: "0 1px 2px rgba(0,0,0,0.15)",
           }}
           aria-hidden="true"
         >
@@ -62,14 +59,14 @@ export default function MobileNav() {
       {/* Dropdown menu */}
       {isOpen && (
         <>
-          {/* Semi-transparent backdrop */}
+          {/* Backdrop */}
           <div
             onClick={() => setIsOpen(false)}
             style={{
               position: "fixed",
               inset: 0,
               zIndex: 1000,
-              background: "rgba(0,0,0,0.3)",
+              background: "rgba(0,0,0,0.2)",
             }}
             aria-hidden="true"
           />
@@ -81,11 +78,10 @@ export default function MobileNav() {
               top: "calc(100% + 0.5rem)",
               right: 0,
               zIndex: 1100,
-              background: "var(--color-white)",
-              borderRadius: "4px",
-              boxShadow: "0 4px 24px rgba(0,0,0,0.12)",
-              minWidth: "200px",
-              padding: "var(--space-xs) 0",
+              background: "var(--color-bg)",
+              minWidth: "180px",
+              padding: "var(--space-md) 0",
+              border: "1px solid var(--color-border)",
             }}
           >
             <MobileNavLink href="/rooms" onClick={() => setIsOpen(false)}>
@@ -120,17 +116,19 @@ function MobileNavLink({ href, onClick, children }: MobileNavLinkProps) {
       style={{
         display: "block",
         padding: "0.75rem 1.5rem",
-        fontSize: "0.9375rem",
+        fontSize: "0.8125rem",
+        letterSpacing: "0.08em",
+        textTransform: "uppercase",
         color: "var(--color-text)",
-        transition: "background 0.15s",
+        transition: "color 0.15s",
         whiteSpace: "nowrap",
       }}
       onMouseEnter={(e) => {
-        (e.currentTarget as HTMLElement).style.background =
-          "var(--color-bg-alt)";
+        (e.currentTarget as HTMLElement).style.color =
+          "var(--color-accent)";
       }}
       onMouseLeave={(e) => {
-        (e.currentTarget as HTMLElement).style.background = "transparent";
+        (e.currentTarget as HTMLElement).style.color = "var(--color-text)";
       }}
     >
       {children}
