@@ -1,12 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // TODO: Add image optimizer configuration for Supabase Storage + external CDN.
-  // images: {
-  //   remotePatterns: [
-  //     { protocol: "https", hostname: "**.supabase.co" },
-  //   ],
-  // },
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "**.supabase.co" },
+    ],
+  },
   // TODO: Add security headers (CSP, X-Frame-Options, Referrer-Policy, Permissions-Policy, etc.).
   // async headers() {
   //   return [

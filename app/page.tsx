@@ -262,7 +262,7 @@ export default async function HomePage() {
             alignItems: "center",
           }}
         >
-          <div style={{ aspectRatio: "1 / 1", overflow: "hidden", borderRadius: 8, maxWidth: 320 }}>
+          <div style={{ width: 160, height: 160, borderRadius: "50%", overflow: "hidden", margin: "0 auto" }}>
             <img
               src="https://heoqwpbkdarhctxugzuk.supabase.co/storage/v1/object/sign/room-images/owner.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wMmQzOWFkNi0xY2MxLTQwODUtOGIxZC0yODZmMGNhMTAyOWUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJyb29tLWltYWdlcy9vd25lci5qcGVnIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NzI1MDY5MywiZXhwIjoxNzg5ODQyNjkzfQ.b12smNMxxuoGII7Ha2QD25c9Yn2D2C_xlTWVP2g5W10"
               alt="Fragoulishome host"
