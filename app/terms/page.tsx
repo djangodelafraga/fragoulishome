@@ -1,5 +1,5 @@
 // ============================================
-// fragoulishome.gr — Legal Page
+// fragoulishome.gr — Terms Page (/terms)
 // Privacy Policy, Terms & Conditions, and Cookie Policy
 // presented in a single page with sidebar navigation.
 // ============================================
@@ -23,19 +23,19 @@ export default function TermsPage() {
         <ol style={{ listStyle: "none", display: "flex", gap: "var(--space-xs)", fontSize: "0.8125rem", color: "var(--color-text-muted)" }}>
           <li><Link href="/" style={{ textDecoration: "underline", color: "var(--color-text-muted)" }}>Home</Link></li>
           <li aria-hidden="true">/</li>
-          <li aria-current="page" style={{ color: "var(--color-text)" }}>Legal</li>
+          <li aria-current="page" style={{ color: "var(--color-text)" }}>Terms</li>
         </ol>
       </nav>
 
       <h1 style={{ fontFamily: "var(--font-serif)", fontSize: "clamp(1.75rem, 4vw, 2.5rem)", marginBottom: "var(--space-xl)" }}>
-        Legal Information
+        Terms
       </h1>
 
       {/* Two-column layout: sidebar + content */}
       <div style={{ display: "flex", gap: "var(--space-2xl)", flexDirection: "column" }} className="legal-layout">
         {/* Sidebar navigation */}
         <nav
-          aria-label="Legal sections"
+          aria-label="Terms sections"
           className="legal-sidebar"
           style={{
             flexShrink: 0,

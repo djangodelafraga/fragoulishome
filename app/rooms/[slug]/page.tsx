@@ -166,14 +166,8 @@ export default async function RoomDetailPage({ params }: RoomDetailPageProps) {
           About this room
         </h2>
         <p style={{ color: "var(--color-text)", lineHeight: 1.7, maxWidth: "42em" }}>{room.description}</p>
-        {room.llmDescription && (
-          <details style={{ marginTop: "var(--space-md)", color: "var(--color-text-muted)", fontSize: "0.9375rem" }}>
-            <summary style={{ cursor: "pointer", color: "var(--color-accent)", fontWeight: 500, marginBottom: "var(--space-sm)" }}>
-              More details
-            </summary>
-            <p style={{ lineHeight: 1.7 }}>{room.llmDescription}</p>
-          </details>
-        )}
+        {/* LLM_OPTIMIZATION: room.llmDescription is served only via structured data (JSON-LD) for AI crawlers.
+             Not shown to human visitors — update lib/seo.ts roomSeoDescription() if needed for meta tags. */}
       </section>
 
       {/* Amenities */}
@@ -206,11 +200,8 @@ export default async function RoomDetailPage({ params }: RoomDetailPageProps) {
         <h2 style={{ fontFamily: "var(--font-serif)", fontSize: "1.25rem", marginBottom: "var(--space-md)" }}>
           Location
         </h2>
-        {room.locationSummary && (
-          <p style={{ color: "var(--color-text)", lineHeight: 1.7, marginBottom: "var(--space-sm)", maxWidth: "42em" }}>
-            {room.locationSummary}
-          </p>
-        )}
+        {/* LLM_OPTIMIZATION: location_summary is served only via structured data for AI crawlers.
+             Human visitors see the standard location info below. */}
         <p style={{ color: "var(--color-text-muted)", fontSize: "0.9375rem" }}>
           {room.address.city}, {room.address.country}
           {room.address.metroStation && ` — near ${room.address.metroStation}`}
