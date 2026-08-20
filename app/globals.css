@@ -148,3 +148,15 @@ h1, h2, h3, h4 {
     display: flex !important;
   }
 }
+
+/* --- Mobile menu button — hidden on desktop, visible on mobile --- */
+@media (max-width: 767px) {
+  .mobile-menu-btn {
+    display: flex !important;
+  }
+}
+@media (min-width: 768px) {
+  .mobile-menu-btn {
+    display: none !important;
+  }
+}

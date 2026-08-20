@@ -9,6 +9,7 @@ import Link from "next/link";
 import Script from "next/script";
 import "./globals.css";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
+import MobileNav from "@/components/MobileNav";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -54,24 +55,8 @@ export default function RootLayout({
               </Link>
             </div>
 
-            {/* Check availability CTA */}
-            <Link
-              href="/booking"
-              style={{
-                fontSize: "0.8125rem",
-                fontWeight: 500,
-                letterSpacing: "0.02em",
-                textTransform: "uppercase",
-                color: "var(--color-white)",
-                background: "var(--color-accent)",
-                padding: "0.5rem 1rem",
-                borderRadius: "2px",
-                transition: "background 0.2s",
-                whiteSpace: "nowrap",
-              }}
-            >
-              Check availability
-            </Link>
+            {/* Mobile hamburger menu */}
+            <MobileNav />
           </nav>
         </header>
 
