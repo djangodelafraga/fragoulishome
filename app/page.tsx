@@ -96,7 +96,7 @@ export default async function HomePage() {
           A quiet corner of eastern Crete
         </SectionHeading>
 
-        <div style={{ display: "grid", gap: "var(--space-xl)", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", alignItems: "center" }}>
+        <div style={{ display: "grid", gap: "var(--space-xl)", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", alignItems: "center" }}>
           {/* Image */}
           <div style={{ aspectRatio: "4 / 3", overflow: "hidden", background: "var(--color-border)", position: "relative" }}>
             {/* TODO: Replace with property/location photograph */}
@@ -140,7 +140,7 @@ export default async function HomePage() {
         </SectionHeading>
 
         {featured.length > 0 ? (
-          <div style={{ display: "grid", gap: "var(--space-xl)", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))" }}>
+          <div style={{ display: "grid", gap: "var(--space-xl)", gridTemplateColumns: "repeat(auto-fill, minmax(min(320px, 100%), 1fr))" }}>
             {featured.map((room) => (
               <RoomPreview key={room.id} room={room} />
             ))}
@@ -181,7 +181,7 @@ export default async function HomePage() {
           Location
         </SectionHeading>
 
-        <div style={{ display: "grid", gap: "var(--space-xl)", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", alignItems: "center" }}>
+        <div style={{ display: "grid", gap: "var(--space-xl)", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", alignItems: "center" }}>
           {/* Map placeholder */}
           <div style={{ aspectRatio: "4 / 3", overflow: "hidden", background: "var(--color-bg-alt)", position: "relative", border: "1px solid var(--color-border)" }}>
             {/* TODO: Replace with embedded map (Google Maps / OpenStreetMap) */}
@@ -231,7 +231,7 @@ export default async function HomePage() {
           A family-run stay
         </SectionHeading>
 
-        <div style={{ display: "grid", gap: "var(--space-xl)", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
+        <div style={{ display: "grid", gap: "var(--space-xl)", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))" }}>
           <div style={{ borderTop: "1px solid var(--color-border)", paddingTop: "var(--space-lg)" }}>
             <h3 style={{ fontFamily: "var(--font-serif)", fontSize: "1.125rem", marginBottom: "var(--space-sm)" }}>Direct booking</h3>
             <p style={{ fontSize: "0.875rem", color: "var(--color-text-muted)", lineHeight: 1.7 }}>
