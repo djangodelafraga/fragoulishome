@@ -97,7 +97,7 @@ export default async function HomePage() {
           {/* Image */}
           <div style={{ aspectRatio: "4 / 3", overflow: "hidden", background: "var(--color-border)", position: "relative" }}>
             <img
-              src="https://heoqwpbkdarhctxugzuk.supabase.co/storage/v1/object/sign/room-images/sense%20od%20place.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wMmQzOWFkNi0xY2MxLTQwODUtOGIxZC0yODZmMGNhMTAyOWUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJyb29tLWltYWdlcy9zZW5zZSBvZCBwbGFjZS5qcGciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg3MjUwNTE5LCJleHAiOjE3ODk4NDI1MTl9.h0Uw9ex_SG47SyH2ApiQNdWo1bFjganVQs7yfTArNAQ"
+              src="https://heoqwpbkdarhctxugzuk.supabase.co/storage/v1/object/sign/room-images/sense%20of%20place.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wMmQzOWFkNi0xY2MxLTQwODUtOGIxZC0yODZmMGNhMTAyOWUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJyb29tLWltYWdlcy9zZW5zZSBvZiBwbGFjZS5qcGciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg3MjUxNTIxLCJleHAiOjE3ODk4NDM1MjF9.z6FkU1SGLQ1BjUwfpyRbGH0uuGkUZi1B_0xpdVKGn58"
               alt="Olive grove and coastline near Fragoulishome"
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
