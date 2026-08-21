@@ -21,6 +21,8 @@ export default async function HomePage() {
           Hero — 85-95vh, image-dominant, editorial
           Negative margin pulls it back under the
           absolutely-positioned transparent header.
+          paddingTop reserves space so the title
+          never overlaps the header on small screens.
           ============================================ */}
       <section
         aria-label="Introduction"
@@ -30,8 +32,10 @@ export default async function HomePage() {
           height: "clamp(70vh, 90vh, 95vh)",
           minHeight: "500px",
           display: "flex",
-          alignItems: "flex-end",
+          flexDirection: "column",
+          justifyContent: "flex-end",
           marginTop: "calc(clamp(72px, 10vw, 96px) * -1)",
+          paddingTop: "clamp(72px, 10vw, 96px)",
         }}
       >
         {/* Full-bleed background image */}
