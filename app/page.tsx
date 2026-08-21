@@ -32,7 +32,7 @@ export default async function HomePage() {
           isolation: "isolate",
           height: "clamp(70vh, 90vh, 95vh)",
           minHeight: "500px",
-          marginTop: "calc(clamp(88px, 12vw, 96px) * -1)",
+          marginTop: "calc(clamp(56px, 8vw, 72px) * -1)",
         }}
       >
         {/* Full-bleed background image */}
@@ -77,9 +77,9 @@ export default async function HomePage() {
             left: 0,
             right: 0,
             zIndex: 1,
-            paddingTop: "clamp(88px, 12vw, 96px)",
+            paddingTop: "clamp(56px, 8vw, 72px)",
             paddingBottom: "clamp(var(--space-2xl), 8vh, var(--space-4xl))",
-            maxHeight: "calc(100% - clamp(88px, 12vw, 96px))",
+            maxHeight: "calc(100% - clamp(56px, 8vw, 72px))",
             overflowY: "auto",
           }}
         >

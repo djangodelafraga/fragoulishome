@@ -63,9 +63,9 @@ export default function RootLayout({
             left: 0,
             right: 0,
             zIndex: 100,
-            background: "rgba(42, 40, 37, 0.12)",
-            backdropFilter: "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)",
+            background: "rgba(42, 40, 37, 0.25)",
+            backdropFilter: "blur(8px)",
+            WebkitBackdropFilter: "blur(8px)",
           }}
         >
           <nav
@@ -75,8 +75,8 @@ export default function RootLayout({
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              paddingTop: "var(--space-lg)",
-              paddingBottom: "var(--space-lg)",
+              paddingTop: "var(--space-sm)",
+              paddingBottom: "var(--space-sm)",
             }}
           >
             {/* Wordmark — calligraphy script */}
@@ -84,11 +84,11 @@ export default function RootLayout({
               href="/"
               style={{
                 fontFamily: "var(--font-calligraphy), var(--font-serif)",
-                fontSize: "clamp(1.5rem, 2.5vw, 2rem)",
+                fontSize: "clamp(1.25rem, 2vw, 1.75rem)",
                 letterSpacing: "0.02em",
                 color: "var(--color-white)",
                 whiteSpace: "nowrap",
-                textShadow: "0 2px 6px rgba(0,0,0,0.25)",
+                textShadow: "0 2px 6px rgba(0,0,0,0.3)",
               }}
             >
               Fragoulishome
@@ -153,7 +153,7 @@ export default function RootLayout({
           id="main-content"
           role="main"
           style={{
-            paddingTop: "clamp(88px, 12vw, 96px)",
+            paddingTop: "clamp(56px, 8vw, 72px)",
           }}
         >
           {children}
@@ -171,11 +171,19 @@ export default function RootLayout({
             className="container"
             style={{
               display: "grid",
-              gridTemplateColumns: "1fr 1fr",
+              gridTemplateColumns: "1fr",
               gap: "var(--space-2xl)",
               textAlign: "center",
             }}
           >
+            <style>{`
+              @media (min-width: 480px) {
+                .footer-grid {
+                  grid-template-columns: 1fr 1fr !important;
+                }
+              }
+            `}</style>
+            <div className="footer-grid" style={{ display: "contents" }}>
             {/* Contact Details */}
             <div
               style={{
@@ -262,6 +270,7 @@ export default function RootLayout({
                 Crete 723 00<br />
                 Greece
               </address>
+            </div>
             </div>
           </div>
 
