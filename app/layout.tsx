@@ -79,7 +79,7 @@ export default function RootLayout({
               paddingBottom: "var(--space-lg)",
             }}
           >
-            {/* Wordmark — calligraphy, elegant script presence */}
+            {/* Wordmark — calligraphy script */}
             <Link
               href="/"
               style={{
@@ -153,7 +153,7 @@ export default function RootLayout({
           id="main-content"
           role="main"
           style={{
-            paddingTop: "clamp(72px, 10vw, 96px)",
+            paddingTop: "clamp(88px, 12vw, 96px)",
           }}
         >
           {children}
