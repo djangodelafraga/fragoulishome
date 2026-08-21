@@ -29,7 +29,7 @@ export default async function BookingPage({ searchParams }: BookingPageProps) {
   const allRooms = !roomId ? await getRooms() : [];
 
   return (
-    <main className="container" style={{ paddingTop: "var(--space-3xl)", paddingBottom: "var(--space-4xl)" }}>
+    <main className="container" style={{ paddingBottom: "var(--space-4xl)" }}>
       {/* Breadcrumb */}
       <nav aria-label="Breadcrumb" style={{ marginBottom: "var(--space-lg)" }}>
         <ol style={{ listStyle: "none", display: "flex", gap: "var(--space-xs)", fontSize: "0.8125rem", color: "var(--color-text-muted)" }}>

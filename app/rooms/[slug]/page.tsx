@@ -62,7 +62,7 @@ export default async function RoomDetailPage({ params }: RoomDetailPageProps) {
   const coverSrc = room.coverImageUrl ?? room.images?.[0]?.url ?? null;
 
   return (
-    <main className="container" style={{ paddingTop: "var(--space-3xl)", paddingBottom: "var(--space-4xl)" }}>
+    <main className="container" style={{ paddingBottom: "var(--space-4xl)" }}>
       {/* JSON-LD structured data */}
       <script
         type="application/ld+json"

@@ -139,7 +139,13 @@ export default function RootLayout({
           </nav>
         </header>
 
-        <main id="main-content" role="main">
+        <main
+          id="main-content"
+          role="main"
+          style={{
+            paddingTop: "clamp(72px, 10vw, 96px)",
+          }}
+        >
           {children}
         </main>
 

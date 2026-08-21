@@ -19,6 +19,8 @@ export default async function HomePage() {
     <>
       {/* ============================================
           Hero — 85-95vh, image-dominant, editorial
+          Negative margin pulls it back under the
+          absolutely-positioned transparent header.
           ============================================ */}
       <section
         aria-label="Introduction"
@@ -29,6 +31,7 @@ export default async function HomePage() {
           minHeight: "500px",
           display: "flex",
           alignItems: "flex-end",
+          marginTop: "calc(clamp(72px, 10vw, 96px) * -1)",
         }}
       >
         {/* Full-bleed background image */}
