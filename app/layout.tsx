@@ -168,7 +168,7 @@ export default function RootLayout({
           }}
         >
           <div
-            className="container"
+            className="container footer-grid"
             style={{
               display: "grid",
               gridTemplateColumns: "1fr",
@@ -183,7 +183,6 @@ export default function RootLayout({
                 }
               }
             `}</style>
-            <div className="footer-grid" style={{ display: "contents" }}>
             {/* Contact Details */}
             <div
               style={{
@@ -270,7 +269,6 @@ export default function RootLayout({
                 Crete 723 00<br />
                 Greece
               </address>
-            </div>
             </div>
           </div>
 
