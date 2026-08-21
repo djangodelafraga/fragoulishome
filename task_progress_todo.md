@@ -1,0 +1,5 @@
+- [ ] Read relevant files (layout.tsx, globals.css, page.tsx) to understand current state
+- [ ] Make header semitransparent
+- [ ] Add calligraphy font for "Fragoulishome" in header
+- [ ] Address footer issue (text clarification needed)
+- [ ] Verify changes

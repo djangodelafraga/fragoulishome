@@ -7,9 +7,16 @@ import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
+import { Dancing_Script } from "next/font/google";
 import "./globals.css";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
 import MobileNav from "@/components/MobileNav";
+
+const dancingScript = Dancing_Script({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-calligraphy",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -30,7 +37,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className={dancingScript.variable}>
         <a
           href="#main-content"
           className="sr-only"
@@ -56,6 +63,9 @@ export default function RootLayout({
             left: 0,
             right: 0,
             zIndex: 100,
+            background: "rgba(42, 40, 37, 0.12)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
           }}
         >
           <nav
@@ -69,16 +79,16 @@ export default function RootLayout({
               paddingBottom: "var(--space-lg)",
             }}
           >
-            {/* Wordmark — serif, more typographic presence */}
+            {/* Wordmark — calligraphy, elegant script presence */}
             <Link
               href="/"
               style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(1.125rem, 2vw, 1.5rem)",
-                letterSpacing: "-0.01em",
+                fontFamily: "var(--font-calligraphy), var(--font-serif)",
+                fontSize: "clamp(1.5rem, 2.5vw, 2rem)",
+                letterSpacing: "0.02em",
                 color: "var(--color-white)",
                 whiteSpace: "nowrap",
-                textShadow: "0 1px 3px rgba(0,0,0,0.15)",
+                textShadow: "0 2px 6px rgba(0,0,0,0.25)",
               }}
             >
               Fragoulishome
@@ -160,49 +170,99 @@ export default function RootLayout({
           <div
             className="container"
             style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "var(--space-lg)",
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "var(--space-2xl)",
               textAlign: "center",
             }}
           >
-            {/* Brand */}
-            <p
+            {/* Contact Details */}
+            <div
               style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "1.25rem",
-                color: "var(--color-text)",
+                display: "flex",
+                flexDirection: "column",
+                gap: "var(--space-md)",
               }}
             >
-              Fragoulishome
-            </p>
-
-            {/* Location */}
-            <address
-              style={{
-                fontStyle: "normal",
-                fontSize: "0.8125rem",
-                color: "var(--color-text-muted)",
-                lineHeight: 1.8,
-              }}
-            >
-              Petras, Sitia · Crete 723 00 · Greece
-            </address>
-
-            {/* Contact */}
-            <p style={{ fontSize: "0.8125rem", color: "var(--color-text-muted)" }}>
-              <a
-                href="mailto:fragoulishome@gmail.com"
+              <p
                 style={{
-                  color: "var(--color-accent)",
-                  borderBottom: "1px solid transparent",
-                  transition: "border-color 0.2s",
+                  fontFamily: "var(--font-calligraphy), var(--font-serif)",
+                  fontSize: "1.25rem",
+                  color: "var(--color-text)",
                 }}
               >
-                fragoulishome@gmail.com
-              </a>
-            </p>
+                Fragoulishome
+              </p>
+              <p style={{ fontSize: "0.8125rem", color: "var(--color-text-muted)" }}>
+                <a
+                  href="mailto:fragoulishome@gmail.com"
+                  style={{
+                    color: "var(--color-accent)",
+                    borderBottom: "1px solid transparent",
+                    transition: "border-color 0.2s",
+                  }}
+                >
+                  fragoulishome@gmail.com
+                </a>
+              </p>
+              <p style={{ fontSize: "0.8125rem", color: "var(--color-text-muted)" }}>
+                <a
+                  href="tel:+306971234567"
+                  style={{
+                    color: "var(--color-accent)",
+                    borderBottom: "1px solid transparent",
+                    transition: "border-color 0.2s",
+                  }}
+                >
+                  +30 697 123 4567
+                </a>
+              </p>
+              <p style={{ fontSize: "0.8125rem", color: "var(--color-text-muted)" }}>
+                <a
+                  href="https://instagram.com/fragoulishome"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    color: "var(--color-accent)",
+                    borderBottom: "1px solid transparent",
+                    transition: "border-color 0.2s",
+                  }}
+                >
+                  @fragoulishome
+                </a>
+              </p>
+            </div>
+
+            {/* Address Details */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "var(--space-md)",
+              }}
+            >
+              <p
+                style={{
+                  fontFamily: "var(--font-serif)",
+                  fontSize: "1rem",
+                  color: "var(--color-text)",
+                }}
+              >
+                Find Us
+              </p>
+              <address
+                style={{
+                  fontStyle: "normal",
+                  fontSize: "0.8125rem",
+                  color: "var(--color-text-muted)",
+                  lineHeight: 1.8,
+                }}
+              >
+                Petras, Sitia<br />
+                Crete 723 00<br />
+                Greece
+              </address>
+            </div>
           </div>
 
           {/* Bottom bar — essential links only */}
