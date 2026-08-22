@@ -1,13 +1,14 @@
 // ============================================
 // fragoulishome.gr — Admin Login Page
 // Email/password login via Supabase Auth.
+// Uses @supabase/ssr for cookie-based session persistence.
 // ============================================
 
 "use client";
 
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { login } from "@/lib/supabaseClient";
+import { createBrowserClient } from "@supabase/ssr";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -22,18 +23,46 @@ export default function AdminLoginPage() {
     setLoading(true);
 
     try {
-      const user = await login(email, password);
-      if (!user) {
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+      const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+      if (!supabaseUrl || !supabaseKey) {
+        setError("Server configuration error. Please contact the administrator.");
+        setLoading(false);
+        return;
+      }
+
+      // Create browser client — this automatically persists the session to cookies
+      const supabase = createBrowserClient(supabaseUrl, supabaseKey);
+
+      const { data, error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (signInError || !data.user) {
         setError("Invalid email or password. Please try again.");
         setLoading(false);
         return;
       }
-      if (user.role !== "admin" && user.role !== "superadmin") {
+
+      // Check if user has admin role
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", data.user.id)
+        .single();
+
+      const role = profile?.role as string | undefined;
+      if (role !== "admin" && role !== "superadmin") {
+        // Sign out since they're not admin
+        await supabase.auth.signOut();
         setError("This account does not have admin access.");
         setLoading(false);
         return;
       }
-      // Redirect to admin dashboard on success
+
+      // Redirect to admin dashboard
       router.push("/admin");
       router.refresh();
     } catch (err) {

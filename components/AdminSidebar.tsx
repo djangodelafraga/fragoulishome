@@ -7,7 +7,7 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import { logout } from "@/lib/supabaseClient";
+import { createBrowserClient } from "@supabase/ssr";
 
 interface NavItem {
   href: string;
@@ -31,7 +31,14 @@ export default function AdminSidebar() {
   }
 
   async function handleLogout() {
-    await logout();
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (supabaseUrl && supabaseKey) {
+      const supabase = createBrowserClient(supabaseUrl, supabaseKey);
+      await supabase.auth.signOut();
+    }
+
     router.push("/admin/login");
     router.refresh();
   }
