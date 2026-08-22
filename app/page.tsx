@@ -11,7 +11,7 @@ import RoomPreview from "@/components/RoomPreview";
 import { generateJsonLd } from "@/lib/seo";
 import { generateFaqSchema, getCommonFaqs } from "@/lib/llmOptimization";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60; // ISR: revalidate every 60 seconds
 
 export default async function HomePage() {
   const rooms = await getRooms();
@@ -71,6 +71,7 @@ export default async function HomePage() {
           <img
             src="https://heoqwpbkdarhctxugzuk.supabase.co/storage/v1/object/sign/room-images/hero-photo.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wMmQzOWFkNi0xY2MxLTQwODUtOGIxZC0yODZmMGNhMTAyOWUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJyb29tLWltYWdlcy9oZXJvLXBob3RvLmpwZWciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg3MjUwNDkzLCJleHAiOjE3ODk4NDI0OTN9.QpSwJNIkB1Re5t800WiFl9g0KAyHlDtKOpdGd3uOKHM"
             alt="Fragoulishome — exterior with olive and pine trees"
+            fetchPriority="high"
             style={{
               position: "absolute",
               inset: 0,
@@ -195,6 +196,7 @@ export default async function HomePage() {
             }}
           >
             <img
+              loading="lazy"
               src="https://heoqwpbkdarhctxugzuk.supabase.co/storage/v1/object/sign/room-images/sense%20of%20place.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wMmQzOWFkNi0xY2MxLTQwODUtOGIxZC0yODZmMGNhMTAyOWUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJyb29tLWltYWdlcy9zZW5zZSBvZiBwbGFjZS5qcGciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg3MjUxNTIxLCJleHAiOjE3ODk4NDM1MjF9.z6FkU1SGLQ1BjUwfpyRbGH0uuGkUZi1B_0xpdVKGn58"
               alt="Olive grove and coastline near Fragoulishome"
               style={{
@@ -396,6 +398,7 @@ export default async function HomePage() {
             }}
           >
             <img
+              loading="lazy"
               src="https://heoqwpbkdarhctxugzuk.supabase.co/storage/v1/object/sign/room-images/owner.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wMmQzOWFkNi0xY2MxLTQwODUtOGIxZC0yODZmMGNhMTAyOWUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJyb29tLWltYWdlcy9vd25lci5qcGVnIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4NzI1MDY5MywiZXhwIjoxNzg5ODQyNjkzfQ.b12smNMxxuoGII7Ha2QD25c9Yn2D2C_xlTWVP2g5W10"
               alt="Fragoulishome host"
               style={{

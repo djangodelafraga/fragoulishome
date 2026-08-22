@@ -9,6 +9,7 @@ import Link from "next/link";
 import Script from "next/script";
 import { Dancing_Script } from "next/font/google";
 import { generateLLMSummary } from "@/lib/llmOptimization";
+import { getCdnHints } from "@/lib/performance";
 import "./globals.css";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
 import MobileNav from "@/components/MobileNav";
@@ -38,6 +39,19 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        {/* CDN preconnect and dns-prefetch hints */}
+        {getCdnHints().map((hint, i) => (
+          <link key={i} rel={hint.rel} href={hint.href} crossOrigin={hint.crossOrigin} />
+        ))}
+        {/* Font preload */}
+        <link
+          rel="preload"
+          href="/fonts/dancing-script.woff2"
+          as="font"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className={dancingScript.variable}>
         <a
           href="#main-content"
