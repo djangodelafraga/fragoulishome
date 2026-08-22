@@ -179,8 +179,13 @@ export default async function BookingPage({ searchParams }: BookingPageProps) {
         </div>
       )}
 
-      {/* Direct contact CTA — the main message */}
-      <BookingForm room={room ?? undefined} />
+      {/* Booking enquiry form */}
+      <BookingForm
+        room={room ?? undefined}
+        initialCheckIn={checkIn}
+        initialCheckOut={checkOut}
+        initialGuests={guests}
+      />
     </main>
   );
 }

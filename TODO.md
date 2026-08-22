@@ -35,9 +35,9 @@
 - [x] **CookieConsentBanner** (`components/CookieConsentBanner.tsx`) — GDPR consent UI, localStorage persistence, accept/reject buttons with equal styling, conditional script loading.
 
 - [x] **Contact Page** (`app/contact/page.tsx`) — Full contact page with breadcrumb, email/phone/address/social contact cards, contact form (opens email client), OpenStreetMap embed, and page-specific SEO metadata (OG + Twitter tags).
-- [ ] **Admin Dashboard** (`app/admin/page.tsx`) — **Currently a placeholder** ("Admin dashboard placeholder. TODO: implement stats + recent bookings.").
-- [ ] **Admin Rooms** (`app/admin/rooms/page.tsx`) — CRUD UI for rooms, image upload integration.
-- [ ] **Admin Bookings** (`app/admin/bookings/page.tsx`) — Bookings table, status management.
+- [x] **Admin Dashboard** (`app/admin/(dashboard)/page.tsx`) — Stats cards (rooms, bookings, revenue), recent bookings table, quick action buttons.
+- [x] **Admin Rooms** (`app/admin/(dashboard)/rooms/page.tsx`) — Full CRUD: list with edit/delete/deactivate, create form (`/admin/rooms/new`), edit form (`/admin/rooms/[slug]/edit`).
+- [x] **Admin Bookings** (`app/admin/(dashboard)/bookings/page.tsx`) — Full bookings table with guest info, dates, totals, status badges, and confirm/cancel/complete/reject actions.
 - [ ] **Admin Calendar** (`app/admin/calendar/page.tsx`) — Availability calendar, manual overrides, iCal sync trigger.
 
 ### Metadata files (route-level SEO metadata — partially scaffolded)
@@ -179,10 +179,10 @@
 
 ## Admin TODO
 
-- [ ] **Auth** — Implement admin login + session management.
-- [ ] **Dashboard** — Stats (rooms, bookings, revenue), recent bookings. **Currently a placeholder.**
-- [ ] **Room CRUD** — Create, edit, delete rooms with image upload.
-- [ ] **Booking Management** — View, confirm, cancel bookings.
+- [x] **Auth** — Admin login page with Supabase Auth + `@supabase/ssr` cookie-based session persistence. Auth guard on all dashboard routes.
+- [x] **Dashboard** — Stats cards (rooms, bookings, revenue), recent bookings table, quick action buttons.
+- [x] **Room CRUD** — List with edit/delete/deactivate, create form (`/admin/rooms/new`), edit form (`/admin/rooms/[slug]/edit`).
+- [x] **Booking Management** — Full bookings table with status badges, confirm/cancel/complete/reject actions.
 - [ ] **Calendar** — Visual availability management, manual overrides.
 
 ---
