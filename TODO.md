@@ -17,6 +17,11 @@
 - [x] **Global Styles** (`app/globals.css`) — Design tokens (colors, spacing, typography), reset, utilities, responsive container.
 - [x] **Home Page** (`app/page.tsx`) — Hero section, sense of place, featured rooms grid, location highlights, host/direct-booking CTA.
 - [x] **RoomCard** (`components/RoomCard.tsx`) — Renders room cover image, title, price, capacity, link to detail page using next/image.
+- [x] **Rooms Listing** (`app/rooms/page.tsx`) — Working page with breadcrumb, two room cards (Villa Adonis, Villa Alexia), prices (€120/night), descriptions, full SEO metadata.
+- [x] **Room Detail** (`app/rooms/[slug]/page.tsx`) — Working for `villa-adonis` and `villa-alexia` slugs. Image gallery, description, amenities, location info, JSON-LD structured data, full OG/Twitter metadata, "Book this room" CTA. **Note:** Greek slug `elaiwnas` returns 404.
+- [x] **Booking Page** (`app/booking/page.tsx`) — Working page with room selection cards, manual booking instructions (email, phone, visit). No automated booking form/calendar. Page-specific metadata now exported directly (title, description, OG tags, noindex).
+- [x] **Privacy Page** (`app/privacy/page.tsx`) — Full GDPR-compliant privacy policy text (11 sections).
+- [x] **Terms Page** (`app/terms/page.tsx`) — Terms & conditions text (16 sections).
 
 ### Partially Implemented
 - [ ] **BookingForm** (`components/BookingForm.tsx`) — `"use client"` scaffold with handler stub. No date picker, guest count, contact fields, price summary, or submit logic.
@@ -29,14 +34,8 @@
 - [ ] **SeoHead** (`components/SeoHead.tsx`) — Client-side meta tag injection (if needed beyond App Router metadata). Entirely placeholder.
 - [x] **CookieConsentBanner** (`components/CookieConsentBanner.tsx`) — GDPR consent UI, localStorage persistence, accept/reject buttons with equal styling, conditional script loading.
 
-### Not Started (Pages)
-- [ ] **Rooms Listing** (`app/rooms/page.tsx`) — Filterable/sortable room grid, search controls.
-- [ ] **Room Detail** (`app/rooms/[slug]/page.tsx`) — Image gallery, amenities, location summary, booking CTA.
-- [ ] **Booking Page** (`app/booking/page.tsx`) — Full booking flow (dates → details → payment).
-- [ ] **Contact Page** (`app/contact/page.tsx`) — Contact form, address/phone/email, map embed.
-- [x] **Privacy Page** (`app/privacy/page.tsx`) — GDPR-compliant privacy policy text (11 sections).
-- [x] **Terms Page** (`app/terms/page.tsx`) — Terms & conditions text (16 sections).
-- [ ] **Admin Dashboard** (`app/admin/page.tsx`) — Stats cards, recent bookings, quick actions.
+- [x] **Contact Page** (`app/contact/page.tsx`) — Full contact page with breadcrumb, email/phone/address/social contact cards, contact form (opens email client), OpenStreetMap embed, and page-specific SEO metadata (OG + Twitter tags).
+- [ ] **Admin Dashboard** (`app/admin/page.tsx`) — **Currently a placeholder** ("Admin dashboard placeholder. TODO: implement stats + recent bookings.").
 - [ ] **Admin Rooms** (`app/admin/rooms/page.tsx`) — CRUD UI for rooms, image upload integration.
 - [ ] **Admin Bookings** (`app/admin/bookings/page.tsx`) — Bookings table, status management.
 - [ ] **Admin Calendar** (`app/admin/calendar/page.tsx`) — Availability calendar, manual overrides, iCal sync trigger.
@@ -103,19 +102,19 @@
 
 ### Partially Implemented
 - [x] **Metadata Files** — Route-level metadata files created for admin, booking, contact, privacy, rooms, terms (stubs).
-- [x] **Sitemap** (`app/sitemap.ts`) — File exists, needs dynamic room entries from Supabase.
-- [x] **Robots.txt** (`app/robots.ts`) — File exists, needs final disallow rules.
+- [x] **Sitemap** (`app/sitemap.ts`) — File exists, **missing dynamic room entries** (villa-adonis, villa-alexia) and booking page.
+- [x] **Robots.txt** (`app/robots.ts`) — File exists, disallows `/admin`, `/api`, `/booking`. **Booking page is disallowed from indexing** (may be intentional for manual booking flow).
 
 ### Not Started
 - [ ] **`lib/seo.ts`** — **All functions empty placeholders:**
   - [ ] `generateMetadata()` — Build title template, canonical, robots, alternates.
   - [ ] `generateOpenGraph()` — OG + Twitter Card tags.
-  - [ ] `generateJsonLd()` — Structured data (LodgingBusiness, Product, FAQPage, BreadcrumbList).
+  - [ ] `generateJsonLd()` — Structured data (LodgingBusiness, FAQPage, BreadcrumbList).
   - [ ] `canonicalUrl()` — Build canonical URL from path.
   - [ ] `roomSeoDescription()` — LLM-friendly meta description per room.
 - [ ] **Alt-text** — Ensure all room images have descriptive alt-text.
 - [ ] **Semantic HTML** — Use `<article>`, `<section>`, `<nav>`, `<header>`, `<footer>` throughout. (Partially done in layout.)
-- [ ] **JSON-LD** — Inject structured data on room detail + home pages.
+- [ ] **JSON-LD** — Inject structured data on home page (LodgingBusiness schema) and FAQ page. (Room detail pages already have Product schema.)
 
 ---
 
@@ -156,7 +155,7 @@
   - [ ] `genrateLLMLocationContext()` — Neighborhood, transit, landmarks.
   - [ ] `genrateLLMBokingExplanation()` — Dates, totals, policies summary.
   - [ ] `genrateFaqSchema()` — FAQPage JSON-LD.
-- [ ] **Structured Data** — JSON-LD on all key pages.
+- [ ] **Structured Data** — JSON-LD on all key pages. (Room detail pages have Product schema; home page missing LodgingBusiness.)
 - [ ] **FAQ Schema** — Add common guest questions + answers.
 - [ ] **LLM-Friendly Content** — Ensure all descriptions are factual, structured, and machine-readable.
 
@@ -181,7 +180,7 @@
 ## Admin TODO
 
 - [ ] **Auth** — Implement admin login + session management.
-- [ ] **Dashboard** — Stats (rooms, bookings, revenue), recent bookings.
+- [ ] **Dashboard** — Stats (rooms, bookings, revenue), recent bookings. **Currently a placeholder.**
 - [ ] **Room CRUD** — Create, edit, delete rooms with image upload.
 - [ ] **Booking Management** — View, confirm, cancel bookings.
 - [ ] **Calendar** — Visual availability management, manual overrides.
@@ -191,15 +190,15 @@
 ## Calendar Sync TODO
 
 - [ ] **iCal Integration** — Fetch + parse external iCal feeds. (Sync logic implemented in `lib/supabaseClient.ts`.)
-- [] **Manual Overrides** — Allow admin to block/unlock dates.
+- [ ] **Manual Overrides** — Allow admin to block/unlock dates.
 - [ ] **Sync Trigger** — Manual + scheduled (cron) sync. (API route scaffold exists.)
 
 ---
 
 ## Payments TODO
 
-- [ ] **Stripe Integration** — Create PaymentIntent on booking. (Integration complete in `lib/strpe.ts` + routes.)
-- [ ] **Webhook Handling** — Process payment events, update booking status. (Scaffolded `handleWebhok`, route scaffold exists.)
+- [ ] **Stripe Integration** — Create PaymentIntent on booking. (Integration complete in `lib/stripe.ts` + routes.)
+- [ ] **Webhook Handling** — Process payment events, update booking status. (Scaffolded `handleWebhook`, route scaffold exists.)
 - [ ] **Refunds** — Handle cancellation + refund flow.
 - [ ] **Receipts** — Store + display Stripe receipt URLs.
 
@@ -207,8 +206,8 @@
 
 ## Deployment TODO
 
-- [x] **Vercel** — Project connected, en vars set, ready to deploy.
-- [x] **GitHub** — Repo at `github.com/djangodelafrag/fragoulishome.git`
+- [x] **Vercel** — Project connected, env vars set, ready to deploy.
+- [x] **GitHub** — Repo at `github.com/djangodelafraga/fragoulishome.git`
 - [ ] **Domain** — Point fragoulishome.gr to Vercel.
 - [ ] **SSL** — Ensure HTTPS via Vercel auto-provisioning.
 - [ ] **Monitoring** — Set up Vercel Analytics / Sentry.
@@ -219,7 +218,7 @@
 
 **After completing a section of work:**
 
-```bas
+```bash
 git add .
 git commit -m "feat: <description of the section>"
 git push origin main
@@ -236,13 +235,36 @@ git push origin main
 - [ ] Multi-language support (Greek + English).
 - [ ] Email notifications (booking confirmation, reminders).
 - [ ] Guest reviews / ratings.
-- [ ] Multi-currency support.-[ ] PWA / offline support.
+- [ ] Multi-currency support.
+- [ ] PWA / offline support.
 - [ ] Automated iCal sync via cron job (Vercel Cron).
 
 ---
 
 ## Project Documentation
 
-- [x] **READE.md** — Project overview, stack, structure, getting started.
+- [x] **README.md** — Project overview, stack, structure, getting started.
 - [x] **AGENTS.md** — Persistent development guidelines for AI coding agents.
 - [x] **TODO.md** — (This file) Implementation roadmap with status tracking.
+
+---
+
+## Website Audit Findings (August 2026)
+
+### Working Pages
+- **Home (`/`)** — Fully functional with hero, rooms preview, location map, about section, CTA.
+- **Rooms Listing (`/rooms`)** — Working with breadcrumb, two room cards, full SEO metadata.
+- **Room Detail (`/rooms/villa-adonis`, `/rooms/villa-alexia`)** — Working with image gallery, amenities, location, JSON-LD, OG tags, booking CTA.
+- **Privacy (`/privacy`)** — Full GDPR-compliant policy.
+- **Terms (`/terms`)** — Full terms & conditions.
+
+### Issues Found
+- **Room Detail (`/rooms/elaiwnas`)** — Returns 404. The Greek slug does not exist; only `villa-adonis` and `villa-alexia` are valid.
+- **Admin Dashboard (`/admin`)** — Placeholder text only ("Admin dashboard placeholder. TODO: implement stats + recent bookings.").
+
+### Recently Fixed
+- [x] **Contact (`/contact`)** — Replaced placeholder with full contact page: email/phone/address/social cards, contact form, OpenStreetMap embed, and page-specific OG + Twitter metadata.
+- [x] **Booking Page (`/booking`)** — Added page-specific metadata (title, description, OG tags, noindex) directly in the page file.
+- [x] **Admin Dashboard (`/admin`)** — Added page-specific metadata (title, noindex, nofollow) directly in the page file.
+- [x] **Sitemap** — Now dynamically fetches rooms from Supabase and includes `/rooms/villa-adonis` and `/rooms/villa-alexia` entries.
+- [x] **Metadata** — Contact, booking, and admin pages now export their own metadata directly (no longer fall back to home page defaults).

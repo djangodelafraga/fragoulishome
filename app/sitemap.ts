@@ -1,14 +1,15 @@
 // ============================================
 // fragoulishome.gr — Sitemap (SEO)
-// TODO: Generate dynamic sitemap entries from Supabase rooms.
+// Generates static routes + dynamic room detail pages from Supabase.
 // ============================================
 
 import type { MetadataRoute } from "next";
+import { getRooms } from "@/lib/supabaseClient";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://fragoulishome.gr";
 
-  // TODO: Fetch active rooms and add /rooms/[id] entries.
+  // Static routes
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: `${baseUrl}/`,
@@ -42,5 +43,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  return staticRoutes;
+  // Dynamic room detail pages
+  let roomRoutes: MetadataRoute.Sitemap = [];
+  try {
+    const rooms = await getRooms();
+    roomRoutes = rooms.map((room) => ({
+      url: `${baseUrl}/rooms/${room.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    }));
+  } catch (error) {
+    console.error("Failed to fetch rooms for sitemap:", error);
+  }
+
+  return [...staticRoutes, ...roomRoutes];
 }

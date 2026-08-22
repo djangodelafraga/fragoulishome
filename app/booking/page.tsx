@@ -6,7 +6,26 @@
 // backend API routes are preserved for future use.
 // ============================================
 
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Book Your Stay",
+  description:
+    "Book your stay at Fragoulishome in Petras, Sitia, Crete. Select a room, check availability, and contact us directly to confirm your reservation.",
+  robots: {
+    index: false, // Booking flow is not useful for search indexing.
+  },
+  openGraph: {
+    title: "Book Your Stay · Fragoulishome",
+    description:
+      "Book your stay at Fragoulishome in Petras, Sitia, Crete. Direct booking, no platform fees.",
+    url: "https://fragoulishome.gr/booking",
+    siteName: "Fragoulishome",
+    locale: "el_GR",
+    type: "website",
+  },
+};
 import { getRoomById, getRooms } from "@/lib/supabaseClient";
 import BookingForm from "@/components/BookingForm";
 
