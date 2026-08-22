@@ -209,6 +209,26 @@ export async function getRooms(): Promise<Room[]> {
   return (data ?? []).map(mapRoomRow);
 }
 
+export async function getAllRooms(): Promise<Room[]> {
+  const client = getSupabase();
+  if (!client) {
+    console.error("[getAllRooms] No Supabase client");
+    return [];
+  }
+
+  const { data, error } = await client
+    .from("rooms")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("[getAllRooms] error:", JSON.stringify(error));
+    return [];
+  }
+
+  return (data ?? []).map(mapRoomRow);
+}
+
 export async function getRoomBySlug(slug: string): Promise<Room | null> {
   const client = getSupabase();
   if (!client) return null;
@@ -243,6 +263,93 @@ export async function getRoomById(id: string): Promise<Room | null> {
   }
 
   return data ? mapRoomRow(data as RoomRow) : null;
+}
+
+export async function updateRoom(
+  id: string,
+  updates: Partial<Omit<Room, "id" | "createdAt" | "updatedAt">>,
+): Promise<Room | null> {
+  const client = getSupabase();
+  if (!client) return null;
+
+  const row: Record<string, unknown> = {};
+  if (updates.title !== undefined) row.title = updates.title;
+  if (updates.slug !== undefined) row.slug = updates.slug;
+  if (updates.description !== undefined) row.description = updates.description;
+  if (updates.shortDescription !== undefined) row.short_description = updates.shortDescription;
+  if (updates.pricePerNight !== undefined) row.price_per_night = updates.pricePerNight;
+  if (updates.capacity !== undefined) row.capacity = updates.capacity;
+  if (updates.bedType !== undefined) row.bed_type = updates.bedType;
+  if (updates.sizeSqm !== undefined) row.size_sqm = updates.sizeSqm;
+  if (updates.amenities !== undefined) row.amenities = updates.amenities;
+  if (updates.isActive !== undefined) row.is_active = updates.isActive;
+  if (updates.coverImageUrl !== undefined) row.cover_image_url = updates.coverImageUrl;
+
+  const { data, error } = await client
+    .from("rooms")
+    .update(row)
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error("[updateRoom] error:", JSON.stringify(error));
+    return null;
+  }
+
+  return data ? mapRoomRow(data as RoomRow) : null;
+}
+
+export async function createRoom(
+  input: Omit<Room, "id" | "createdAt" | "updatedAt" | "images" | "address">,
+): Promise<Room | null> {
+  const client = getSupabase();
+  if (!client) return null;
+
+  const row: Record<string, unknown> = {
+    slug: input.slug,
+    title: input.title,
+    description: input.description,
+    short_description: input.shortDescription ?? null,
+    price_per_night: input.pricePerNight,
+    currency: input.currency,
+    capacity: input.capacity,
+    bed_type: input.bedType ?? null,
+    size_sqm: input.sizeSqm ?? null,
+    amenities: input.amenities,
+    cover_image_url: input.coverImageUrl ?? null,
+    is_active: input.isActive,
+  };
+
+  const { data, error } = await client
+    .from("rooms")
+    .insert(row)
+    .select()
+    .single();
+
+  if (error) {
+    console.error("[createRoom] error:", JSON.stringify(error));
+    return null;
+  }
+
+  return data ? mapRoomRow(data as RoomRow) : null;
+}
+
+export async function deleteRoom(id: string): Promise<boolean> {
+  const client = getSupabase();
+  if (!client) return false;
+
+  const { error } = await client
+    .from("rooms")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    console.error("[deleteRoom] error:", JSON.stringify(error));
+    return false;
+  }
+
+  return true;
 }
 
 // ============================================
@@ -305,6 +412,23 @@ export async function getBookingById(id: string): Promise<Booking | null> {
   }
 
   return data ? mapBookingRow(data as BookingRow) : null;
+}
+
+export async function getAllBookings(): Promise<Booking[]> {
+  const client = getSupabase();
+  if (!client) return [];
+
+  const { data, error } = await client
+    .from("bookings")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("[getAllBookings] error:", JSON.stringify(error));
+    return [];
+  }
+
+  return (data ?? []).map(mapBookingRow);
 }
 
 export async function updateBookingStatus(
@@ -399,6 +523,35 @@ export async function setAvailabilityBlock(
   }
 
   return data ? mapAvailabilityRow(data as AvailabilityRow) : null;
+}
+
+export async function clearAvailabilityBlock(
+  roomId: string,
+  date: string,
+): Promise<boolean> {
+  const client = getSupabase();
+  if (!client) return false;
+
+  const { error } = await client
+    .from("availability")
+    .delete()
+    .eq("room_id", roomId)
+    .eq("date", date);
+
+  if (error) {
+    console.error("[clearAvailabilityBlock] error:", JSON.stringify(error));
+    return false;
+  }
+
+  return true;
+}
+
+export async function getAvailabilityRange(
+  roomId: string,
+  startDate: string,
+  endDate: string,
+): Promise<Availability[]> {
+  return checkAvailability(roomId, startDate, endDate);
 }
 
 // ============================================
@@ -716,4 +869,63 @@ export async function getCalendarFeeds(roomId: string): Promise<CalendarFeed[]> 
   }
 
   return (data ?? []).map(mapCalendarFeedRow);
+}
+
+// ============================================
+// Dashboard stats
+// ============================================
+
+export interface DashboardStats {
+  totalRooms: number;
+  activeRooms: number;
+  totalBookings: number;
+  pendingBookings: number;
+  confirmedBookings: number;
+  completedBookings: number;
+  cancelledBookings: number;
+  totalRevenue: number;
+  recentBookings: Booking[];
+}
+
+export async function getDashboardStats(): Promise<DashboardStats> {
+  const client = getSupabase();
+  if (!client) {
+    return {
+      totalRooms: 0,
+      activeRooms: 0,
+      totalBookings: 0,
+      pendingBookings: 0,
+      confirmedBookings: 0,
+      completedBookings: 0,
+      cancelledBookings: 0,
+      totalRevenue: 0,
+      recentBookings: [],
+    };
+  }
+
+  const [roomsResult, bookingsResult] = await Promise.all([
+    client.from("rooms").select("*"),
+    client.from("bookings").select("*").order("created_at", { ascending: false }),
+  ]);
+
+  const rooms = (roomsResult.data ?? []) as RoomRow[];
+  const bookings = (bookingsResult.data ?? []) as BookingRow[];
+
+  const mappedBookings = bookings.map(mapBookingRow);
+
+  const totalRevenue = mappedBookings
+    .filter((b) => b.status === "confirmed" || b.status === "completed")
+    .reduce((sum, b) => sum + b.totalPrice, 0);
+
+  return {
+    totalRooms: rooms.length,
+    activeRooms: rooms.filter((r) => r.is_active).length,
+    totalBookings: mappedBookings.length,
+    pendingBookings: mappedBookings.filter((b) => b.status === "pending").length,
+    confirmedBookings: mappedBookings.filter((b) => b.status === "confirmed").length,
+    completedBookings: mappedBookings.filter((b) => b.status === "completed").length,
+    cancelledBookings: mappedBookings.filter((b) => b.status === "cancelled").length,
+    totalRevenue,
+    recentBookings: mappedBookings.slice(0, 10),
+  };
 }
