@@ -123,7 +123,7 @@ export function generateJsonLd(
           latitude: 35.2075,
           longitude: 26.1067,
         },
-        telephone: "+30 28430 00000",
+        telephone: "+30 6971988575",
       };
     }
 

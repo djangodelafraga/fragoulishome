@@ -155,7 +155,7 @@
   - [ ] `genrateLLMLocationContext()` — Neighborhood, transit, landmarks.
   - [ ] `genrateLLMBokingExplanation()` — Dates, totals, policies summary.
   - [ ] `genrateFaqSchema()` — FAQPage JSON-LD.
-- [ ] **Structured Data** — JSON-LD on all key pages. (Room detail pages have Product schema; home page missing LodgingBusiness.)
+- [x] **Structured Data** — JSON-LD on all key pages. Home page now has LodgingBusiness + BreadcrumbList schemas. Room detail pages have Product schema with offers.
 - [ ] **FAQ Schema** — Add common guest questions + answers.
 - [ ] **LLM-Friendly Content** — Ensure all descriptions are factual, structured, and machine-readable.
 

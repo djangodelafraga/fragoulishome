@@ -190,7 +190,7 @@ export default async function ConfirmationPage({ searchParams }: ConfirmationPag
             <div>
               <strong style={{ display: "block", fontSize: "0.9375rem", marginBottom: "0.25rem" }}>Call us</strong>
               <p style={{ fontSize: "0.875rem", color: "var(--color-text-muted)" }}>
-                +30 697 123 4567
+                +30 697 198 8575
               </p>
             </div>
           </div>

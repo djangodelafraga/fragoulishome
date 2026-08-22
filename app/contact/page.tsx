@@ -75,8 +75,8 @@ export default function ContactPage() {
               <span aria-hidden="true" style={{ fontSize: "1.25rem", flexShrink: 0, width: "1.5rem", textAlign: "center" }}>☎</span>
               <div>
                 <strong style={{ display: "block", fontSize: "0.9375rem", marginBottom: "0.25rem" }}>Phone</strong>
-                <a href="tel:+306971234567" style={{ fontSize: "0.875rem", color: "var(--color-accent)", textDecoration: "underline" }}>
-                  +30 697 123 4567
+                <a href="tel:+306971988575" style={{ fontSize: "0.875rem", color: "var(--color-accent)", textDecoration: "underline" }}>
+                  +30 697 198 8575
                 </a>
               </div>
             </div>

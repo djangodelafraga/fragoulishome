@@ -233,14 +233,14 @@ export default function RootLayout({
               </p>
               <p style={{ fontSize: "0.8125rem", color: "var(--color-text-muted)", margin: 0 }}>
                 <a
-                  href="tel:+306971234567"
+                  href="tel:+306971988575"
                   style={{
                     color: "var(--color-accent)",
                     borderBottom: "1px solid transparent",
                     transition: "border-color 0.2s",
                   }}
                 >
-                  +30 697 123 4567
+                  +30 697 198 8575
                 </a>
               </p>
               <p style={{ fontSize: "0.8125rem", color: "var(--color-text-muted)", margin: 0 }}>
