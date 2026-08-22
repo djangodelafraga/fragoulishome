@@ -9,6 +9,7 @@ import { getRooms } from "@/lib/supabaseClient";
 import AvailabilityBar from "@/components/AvailabilityBar";
 import RoomPreview from "@/components/RoomPreview";
 import { generateJsonLd } from "@/lib/seo";
+import { generateFaqSchema, getCommonFaqs } from "@/lib/llmOptimization";
 
 export const dynamic = "force-dynamic";
 
@@ -34,6 +35,10 @@ export default async function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(generateFaqSchema()) }}
       />
       {/* ============================================
           Hero — 85-95vh, image-dominant, editorial

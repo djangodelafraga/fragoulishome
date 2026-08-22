@@ -8,6 +8,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
 import { Dancing_Script } from "next/font/google";
+import { generateLLMSummary } from "@/lib/llmOptimization";
 import "./globals.css";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
 import MobileNav from "@/components/MobileNav";
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
     "Two peaceful maisonettes surrounded by olive and pine trees, less than 100 metres from the sea in Petras, Sitia, Crete. Direct booking, no platform fees.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: ReactNode;
@@ -344,6 +345,11 @@ export default function RootLayout({
 
         {/* Cookie consent configuration — loads before interactive */}
         <Script src="/cookie-config.js" strategy="beforeInteractive" />
+      {/* LLM-friendly content — hidden from visual users, machine-readable for AI crawlers */}
+      <script
+        type="application/llms-txt"
+        dangerouslySetInnerHTML={{ __html: await generateLLMSummary() }}
+      />
       </body>
     </html>
   );
