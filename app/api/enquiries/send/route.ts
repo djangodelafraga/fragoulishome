@@ -2,46 +2,73 @@
 // fragoulishome.gr — POST /api/enquiries/send
 // Receives booking enquiry data, sends email to fragoulishome@gmail.com,
 // and stores the enquiry in Supabase.
+// Rate-limited: 5 submissions per IP per minute.
 // ============================================
 
 import { NextResponse } from "next/server";
 import { sendBookingEnquiry } from "@/lib/email";
 import { createClient } from "@supabase/supabase-js";
+import { validateEmail, validateName, validateDate, validatePositiveInt, applyRateLimiting, getClientIp } from "@/lib/security";
 
 export async function POST(request: Request) {
   try {
+    // Rate limit: 5 submissions per IP per minute
+    const clientIp = getClientIp(request);
+    const allowed = await applyRateLimiting(`enquiry:${clientIp}`, 5, 60_000);
+    if (!allowed) {
+      return NextResponse.json(
+        { error: "Too many requests. Please wait a minute before trying again." },
+        { status: 429 },
+      );
+    }
+
     const body = await request.json();
     const { roomId, roomTitle, checkIn, checkOut, guests, guestName, guestEmail, guestPhone, specialRequests } = body;
 
     // Validate required fields
-    if (!roomTitle || !checkIn || !checkOut || !guests || !guestName || !guestEmail) {
-      return NextResponse.json(
-        { error: "Missing required fields: roomTitle, checkIn, checkOut, guests, guestName, guestEmail" },
-        { status: 400 },
-      );
-    }
-
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(guestEmail)) {
+    const validEmail = validateEmail(guestEmail);
+    if (!validEmail) {
       return NextResponse.json(
         { error: "Invalid email address" },
         { status: 400 },
       );
     }
 
-    // Validate dates
-    const checkInDate = new Date(checkIn);
-    const checkOutDate = new Date(checkOut);
-    if (isNaN(checkInDate.getTime()) || isNaN(checkOutDate.getTime())) {
+    const validName = validateName(guestName);
+    if (!validName) {
       return NextResponse.json(
-        { error: "Invalid dates" },
+        { error: "Invalid guest name" },
         { status: 400 },
       );
     }
-    if (checkOutDate <= checkInDate) {
+
+    const validCheckIn = validateDate(checkIn);
+    const validCheckOut = validateDate(checkOut);
+    if (!validCheckIn || !validCheckOut) {
+      return NextResponse.json(
+        { error: "Invalid date format (use YYYY-MM-DD)" },
+        { status: 400 },
+      );
+    }
+
+    if (new Date(validCheckOut) <= new Date(validCheckIn)) {
       return NextResponse.json(
         { error: "Check-out must be after check-in" },
+        { status: 400 },
+      );
+    }
+
+    const validGuests = validatePositiveInt(guests, 1, 20);
+    if (!validGuests) {
+      return NextResponse.json(
+        { error: "Invalid number of guests" },
+        { status: 400 },
+      );
+    }
+
+    if (!roomTitle || typeof roomTitle !== "string") {
+      return NextResponse.json(
+        { error: "Missing required field: roomTitle" },
         { status: 400 },
       );
     }
@@ -50,11 +77,11 @@ export async function POST(request: Request) {
     try {
       await sendBookingEnquiry({
         roomTitle,
-        checkIn,
-        checkOut,
-        guests: Number(guests),
-        guestName,
-        guestEmail,
+        checkIn: validCheckIn,
+        checkOut: validCheckOut,
+        guests: validGuests,
+        guestName: validName,
+        guestEmail: validEmail,
         guestPhone: guestPhone || undefined,
         specialRequests: specialRequests || undefined,
       });
@@ -73,12 +100,12 @@ export async function POST(request: Request) {
 
         await supabase.from("bookings").insert({
           room_id: roomId || null,
-          guest_name: guestName,
-          guest_email: guestEmail,
+          guest_name: validName,
+          guest_email: validEmail,
           guest_phone: guestPhone || null,
-          check_in: checkIn,
-          check_out: checkOut,
-          number_of_guests: Number(guests),
+          check_in: validCheckIn,
+          check_out: validCheckOut,
+          number_of_guests: validGuests,
           total_price: 0,
           currency: "EUR",
           status: "enquiry",
