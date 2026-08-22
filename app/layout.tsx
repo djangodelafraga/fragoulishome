@@ -54,11 +54,11 @@ export default function RootLayout({
           Skip to main content
         </a>
 
-        {/* Header — minimal, transparent, no border */}
+        {/* Header — fixed at top, visible on scroll */}
         <header
           role="banner"
           style={{
-            position: "absolute",
+            position: "fixed",
             top: 0,
             left: 0,
             right: 0,
@@ -141,6 +141,19 @@ export default function RootLayout({
                 }}
               >
                 About
+              </Link>
+              <Link
+                href="/contact"
+                style={{
+                  fontSize: "0.75rem",
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  color: "var(--color-white)",
+                  textShadow: "0 1px 2px rgba(0,0,0,0.1)",
+                  transition: "opacity 0.2s",
+                }}
+              >
+                Contact
               </Link>
             </div>
 

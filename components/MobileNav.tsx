@@ -93,6 +93,9 @@ export default function MobileNav() {
             <MobileNavLink href="/#about" onClick={() => setIsOpen(false)}>
               About
             </MobileNavLink>
+            <MobileNavLink href="/contact" onClick={() => setIsOpen(false)}>
+              Contact
+            </MobileNavLink>
           </nav>
         </>
       )}
