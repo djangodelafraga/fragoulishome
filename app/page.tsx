@@ -8,6 +8,7 @@ import Link from "next/link";
 import { getRooms } from "@/lib/supabaseClient";
 import AvailabilityBar from "@/components/AvailabilityBar";
 import RoomPreview from "@/components/RoomPreview";
+import { generateJsonLd } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -15,8 +16,25 @@ export default async function HomePage() {
   const rooms = await getRooms();
   const featured = rooms.slice(0, 2);
 
+  const siteSchema = generateJsonLd("Site", {});
+  const breadcrumbSchema = generateJsonLd("BreadcrumbList", [
+    { name: "Home", url: "/" },
+    { name: "Rooms", url: "/rooms" },
+    { name: "Book Your Stay", url: "/booking" },
+    { name: "Contact", url: "/contact" },
+  ]);
+
   return (
     <>
+      {/* JSON-LD structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       {/* ============================================
           Hero — 85-95vh, image-dominant, editorial
           Negative margin pulls it back under the

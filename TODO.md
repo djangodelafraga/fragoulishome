@@ -24,7 +24,7 @@
 - [x] **Terms Page** (`app/terms/page.tsx`) — Terms & conditions text (16 sections).
 
 ### Partially Implemented
-- [ ] **BookingForm** (`components/BookingForm.tsx`) — `"use client"` scaffold with handler stub. No date picker, guest count, contact fields, price summary, or submit logic.
+- [x] **BookingForm** (`components/BookingForm.tsx`) — Full interactive form: date picker, guest count, name/email/phone fields, price summary, special requests, submit via API to send email to fragoulishome@gmail.com.
 - [ ] **AvailabilityCalendar** (`components/AvailabilityCalendar.tsx`) — Month grid with available/booked/blocked states, date range selection. Entirely placeholder.
 - [ ] **AdminSidebar** (`components/AdminSidebar.tsx`) — Active route highlighting, logout button. Entirely placeholder.
 - [ ] **ImageUploader** (`components/ImageUploader.tsx`) — Drag-and-drop, preview thumbnails, alt-text input per image. Entirely placeholder.
