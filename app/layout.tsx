@@ -174,33 +174,39 @@ export default function RootLayout({
               gridTemplateColumns: "1fr",
               gap: "var(--space-2xl)",
               textAlign: "center",
+              maxWidth: "800px",
+              margin: "0 auto",
             }}
           >
             <style>{`
               @media (min-width: 480px) {
                 .footer-grid {
                   grid-template-columns: 1fr 1fr !important;
+                  align-items: start;
                 }
               }
             `}</style>
+
             {/* Contact Details */}
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
-                gap: "var(--space-md)",
+                gap: "var(--space-sm)",
+                alignItems: "center",
               }}
             >
               <p
                 style={{
-                  fontFamily: "var(--font-calligraphy), var(--font-serif)",
-                  fontSize: "1.25rem",
+                  fontFamily: "var(--font-serif)",
+                  fontSize: "1rem",
                   color: "var(--color-text)",
+                  marginBottom: "var(--space-xs)",
                 }}
               >
-                Fragoulishome
+                Get in Touch
               </p>
-              <p style={{ fontSize: "0.8125rem", color: "var(--color-text-muted)" }}>
+              <p style={{ fontSize: "0.8125rem", color: "var(--color-text-muted)", margin: 0 }}>
                 <a
                   href="mailto:fragoulishome@gmail.com"
                   style={{
@@ -212,7 +218,7 @@ export default function RootLayout({
                   fragoulishome@gmail.com
                 </a>
               </p>
-              <p style={{ fontSize: "0.8125rem", color: "var(--color-text-muted)" }}>
+              <p style={{ fontSize: "0.8125rem", color: "var(--color-text-muted)", margin: 0 }}>
                 <a
                   href="tel:+306971234567"
                   style={{
@@ -224,7 +230,7 @@ export default function RootLayout({
                   +30 697 123 4567
                 </a>
               </p>
-              <p style={{ fontSize: "0.8125rem", color: "var(--color-text-muted)" }}>
+              <p style={{ fontSize: "0.8125rem", color: "var(--color-text-muted)", margin: 0 }}>
                 <a
                   href="https://instagram.com/fragoulishome"
                   target="_blank"
@@ -245,7 +251,8 @@ export default function RootLayout({
               style={{
                 display: "flex",
                 flexDirection: "column",
-                gap: "var(--space-md)",
+                gap: "var(--space-sm)",
+                alignItems: "center",
               }}
             >
               <p
@@ -253,6 +260,7 @@ export default function RootLayout({
                   fontFamily: "var(--font-serif)",
                   fontSize: "1rem",
                   color: "var(--color-text)",
+                  marginBottom: "var(--space-xs)",
                 }}
               >
                 Find Us
@@ -263,6 +271,7 @@ export default function RootLayout({
                   fontSize: "0.8125rem",
                   color: "var(--color-text-muted)",
                   lineHeight: 1.8,
+                  margin: 0,
                 }}
               >
                 Petras, Sitia<br />
@@ -314,7 +323,7 @@ export default function RootLayout({
             >
               Contact
             </Link>
-            <span>&copy; {new Date().getFullYear()}</span>
+            <span>&copy; {new Date().getFullYear()} fragoulishome</span>
           </div>
         </footer>
 
