@@ -1,15 +1,16 @@
 // ============================================
 // fragoulishome.gr — BookingForm
-// Interactive booking enquiry form.
+// Interactive booking enquiry form with availability checking.
 // Collects guest details and sends an enquiry email
 // to fragoulishome@gmail.com via the backend API.
+// When a room is selected, fetches availability to show blocked dates.
 // ============================================
 
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, useEffect, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import type { Room } from "@/types/database";
+import type { Room, Availability } from "@/types/database";
 
 interface BookingFormProps {
   room?: Room;
@@ -36,6 +37,12 @@ export default function BookingForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Availability state
+  const [availability, setAvailability] = useState<Availability[] | null>(null);
+  const [availabilityLoading, setAvailabilityLoading] = useState(false);
+  const [isAvailable, setIsAvailable] = useState<boolean | null>(null);
+  const [unavailableDates, setUnavailableDates] = useState<string[]>([]);
+
   // Calculate nights and total
   const nights =
     checkIn && checkOut
@@ -45,6 +52,53 @@ export default function BookingForm({
       : 0;
 
   const totalPrice = room && nights > 0 ? room.pricePerNight * nights : 0;
+
+  // Fetch availability when room + dates change
+  useEffect(() => {
+    if (!room || !checkIn || !checkOut) {
+      setAvailability(null);
+      setIsAvailable(null);
+      setUnavailableDates([]);
+      return;
+    }
+
+    const activeRoomId = room.id;
+    let cancelled = false;
+
+    async function fetchAvailability() {
+      setAvailabilityLoading(true);
+      try {
+        const res = await fetch(
+          `/api/availability/check?roomId=${activeRoomId}&checkIn=${checkIn}&checkOut=${checkOut}`,
+        );
+        const json = await res.json();
+
+        if (cancelled) return;
+
+        if (json.data) {
+          setAvailability(json.data.dates ?? []);
+          setIsAvailable(json.data.isAvailable ?? false);
+          setUnavailableDates(
+            (json.data.unavailableDates ?? []).map((d: { date: string }) => d.date),
+          );
+        }
+      } catch {
+        if (!cancelled) {
+          setAvailabilityLoading(false);
+        }
+      } finally {
+        if (!cancelled) {
+          setAvailabilityLoading(false);
+        }
+      }
+    }
+
+    fetchAvailability();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [room, checkIn, checkOut]);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -89,13 +143,13 @@ export default function BookingForm({
       });
 
       router.push(`/booking/confirmation?${params.toString()}`);
-    } catch (err) {
+    } catch {
       setError("Network error. Please check your connection and try again.");
       setLoading(false);
     }
   }
 
-  // Calculate min dates (today for check-in, check-in + 1 for check-out)
+  // Calculate min dates
   const today = new Date().toISOString().split("T")[0];
   const minCheckOut = checkIn
     ? new Date(new Date(checkIn).getTime() + 86400000).toISOString().split("T")[0]
@@ -184,6 +238,33 @@ export default function BookingForm({
           </FormField>
         </div>
 
+        {/* Availability feedback */}
+        {room && checkIn && checkOut && (
+          <div style={{
+            padding: "0.5rem 0.75rem",
+            fontSize: "0.8125rem",
+            borderRadius: "2px",
+            border: "1px solid",
+            ...(availabilityLoading
+              ? { color: "var(--color-text-muted)", borderColor: "var(--color-border)", background: "var(--color-bg)" }
+              : isAvailable === true
+                ? { color: "#065f46", borderColor: "#d1fae5", background: "#ecfdf5" }
+                : isAvailable === false
+                  ? { color: "#991b1b", borderColor: "#fecaca", background: "#fee2e2" }
+                  : { display: "none" }),
+          }}>
+            {availabilityLoading
+              ? "Checking availability..."
+              : isAvailable === true
+                ? `${nights} ${nights === 1 ? "night" : "nights"} available for your dates`
+                : isAvailable === false && unavailableDates.length > 0
+                  ? `Not available: ${new Date(unavailableDates[0]).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" })}${unavailableDates.length > 1 ? ` + ${unavailableDates.length - 1} more` : ""}`
+                  : isAvailable === false
+                    ? "These dates are not fully available"
+                    : null}
+          </div>
+        )}
+
         {/* Price summary */}
         {room && nights > 0 && (
           <div style={{
@@ -257,7 +338,7 @@ export default function BookingForm({
 
         <button
           type="submit"
-          disabled={loading}
+          disabled={loading || isAvailable === false}
           style={{
             width: "100%",
             padding: "0.75rem",
@@ -265,16 +346,20 @@ export default function BookingForm({
             fontWeight: 500,
             letterSpacing: "0.02em",
             color: "var(--color-white)",
-            background: loading ? "var(--color-text-muted)" : "var(--color-accent)",
+            background: loading || isAvailable === false ? "var(--color-text-muted)" : "var(--color-accent)",
             border: "none",
             borderRadius: "2px",
-            cursor: loading ? "not-allowed" : "pointer",
+            cursor: loading || isAvailable === false ? "not-allowed" : "pointer",
             lineHeight: 1.4,
             transition: "opacity 0.2s",
             marginTop: "var(--space-sm)",
           }}
         >
-          {loading ? "Sending your request..." : "Send Booking Request"}
+          {loading
+            ? "Sending your request..."
+            : isAvailable === false
+              ? "Dates unavailable — choose different dates"
+              : "Send Booking Request"}
         </button>
       </form>
     </section>
